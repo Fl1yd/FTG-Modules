@@ -56,7 +56,7 @@ class UkRTTSMod(loader.Module):
                 if not self_mess:
                     await event.client.forward_messages(chat, '/tell ' + reply_message)
                 else:
-                    await event.client.send_message(chat, '/tell ' +user_msg)
+                    await event.client.send_message(chat, '/tell ' + user_msg)
                 response = await response
             except YouBlockedUserError:
                 await event.reply('<code>Разблокируй @playcraftbot для работы модуля</code>')
