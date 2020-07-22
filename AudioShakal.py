@@ -6,7 +6,7 @@ def register(cb):
 	cb(AudioShakalMod())
 class AudioShakalMod(loader.Module):
 	"""АудиоШакал"""
-	strings = {'name': '<b>АудиоШакал</b>'}
+	strings = {'name': 'АудиоШакал'}
 	def __init__(self):
 		self.name = self.strings['name']
 		self._me = None
@@ -38,7 +38,7 @@ class AudioShakalMod(loader.Module):
 				return
 		else:
 			lvl = 100
-		await message.edit("<b>Ебем стасяна... (прости Стасян)</b>\n                     Прощаю (с)Стасян")
+		await message.edit("<b>Ебем стасяна... (прости Стасян)</b>\n                   Прощаю (с)Стасян")
 		sa = False
 		m = io.BytesIO()
 		fname = await message.client.download_media(message=reply.media)
