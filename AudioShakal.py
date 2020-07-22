@@ -38,7 +38,7 @@ class AudioShakalMod(loader.Module):
 				return
 		else:
 			lvl = 100
-		await message.edit("<b>Ебем стасяна... (прости Стасян)</b>\n                     Прощаю (с)Стасян")
+		await message.edit("<b>Ебем стасяна... (прости Стасян)</b>\n                         Прощаю (с)Стасян")
 		sa = False
 		m = io.BytesIO()
 		fname = await message.client.download_media(message=reply.media)
