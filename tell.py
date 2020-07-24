@@ -12,7 +12,7 @@ def register(cb):
 class UkRTTSMod(loader.Module):
     """uk - гениально простое решение для tts"""
 
-    strings = {'name': 'texttovoiceuk'}
+    strings = {'name': 'ttte'}
 
     def __init__(self):
         self.name = self.strings['name']
