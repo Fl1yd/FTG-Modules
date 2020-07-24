@@ -34,7 +34,7 @@ class AudioShakalMod(loader.Module):
 					await message.edit("<b>Укажите уровень долбоебизма от 10 до 100!</b>")
 					return
 			except Exception as exx:
-				await message.edit("<b>Неверный аргумент(ты уебок кста)!</b>" + str(exx))
+				await message.edit("<b>Неверный аргумент(ты уебок кста)!</b>")
 				return
 		else:
 			lvl = 100
