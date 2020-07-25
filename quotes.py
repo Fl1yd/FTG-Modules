@@ -9,7 +9,8 @@ from telethon.tl.types import (MessageEntityBold, MessageEntityItalic,
 							   MessageEntityBotCommand, MessageEntityUrl,
 							   MessageEntityStrike, MessageEntityUnderline,
 							   MessageEntityPhone, ChannelParticipantsAdmins,
-							   ChannelParticipantCreator, ChannelParticipantAdmin)
+							   ChannelParticipantCreator, ChannelParticipantAdmin,
+							   User, Channel)
 							
 logger = logging.getLogger(__name__)
 
@@ -63,17 +64,18 @@ class QuotesMod(loader.Module):
 					pfp = None
 				else:
 					sender = await message.client.get_entity(id)
-					name = sender.first_name + ("" if not sender.last_name else " "+sender.last_name)
+					
+					name = (sender.first_name + ("" if not sender.last_name else " "+sender.last_name)) if type(sender) == User else sender.title
 					pfp = avatars.get(id, None)
 					if not pfp:
-						pfp = await message.client.download_profile_photo(reply.from_id, bytes)
+						pfp = await message.client.download_profile_photo(sender.id, bytes)
 						if pfp:
 							pfp = 'https://telegra.ph'+requests.post('https://telegra.ph/upload', files={'file': ('file', pfp, None)}).json()[0]['src']
 							avatars[id] = pfp
 			else:
 				id = reply.from_id
 				sender = await message.client.get_entity(id)
-				name = sender.first_name + ("" if not sender.last_name else " "+sender.last_name)
+				name = (sender.first_name + ("" if not sender.last_name else " "+sender.last_name)) if type(sender) == User else sender.title
 				pfp = avatars.get(id, None)
 				if not pfp:
 					pfp = await message.client.download_profile_photo(reply.from_id, bytes)
@@ -87,7 +89,7 @@ class QuotesMod(loader.Module):
 			if rreply:
 				rtext = rreply.raw_text
 				rsender = rreply.sender
-				rname = rsender.first_name + ("" if not rsender.last_name else " "+rsender.last_name)
+				rname = (rsender.first_name + ("" if not rsender.last_name else " "+rsender.last_name)) if type(rsender) == User else rsender.title
 				rreply = {'author': rname, 'text': rtext}
 				
 			admintitle = ""
@@ -95,7 +97,7 @@ class QuotesMod(loader.Module):
 				admins = await message.client.get_participants(message.to_id, filter=ChannelParticipantsAdmins)
 				if reply.sender in admins:
 					admin = admins[admins.index(reply.sender)].participant
-					admintitle = admin.rank
+					admintitle = admin.rank if admin else ""
 					if not admintitle:
 						if type(admin) == ChannelParticipantCreator:
 							admintitle = "creator" 
