@@ -7,7 +7,6 @@ from datetime import date
 def register(cb):
     cb(CalendarMod())
 
-
 class CalendarMod(loader.Module):
     """Календарь"""
     strings = {"name": "Calendar"}
