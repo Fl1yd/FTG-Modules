@@ -26,6 +26,6 @@ class KickRandomMod(loader.Module):
 			return
 
 		# Кто кикнут.
-		name = user.first_name
+		name = str(user.first_name)
 		name += " "+user.last_name if user.last_name else ''
-		await event.edit(f"<b>Рандом выбрал <a href=\"tg://user?id={user.id}\">{user.first_name}</a>, и он кикнут!</b>")
+		await event.edit(f"Рандом выбрал <a href=\"tg://user?id={user.id}\">{user.first_name}</a>, и он кикнут!")
