@@ -48,7 +48,7 @@ class ChatMod(loader.Module):
 
     async def chatidcmd(self, chtid):
         """Команда .chatid показывает ID чата."""
-        await chtid.edit("<b>Чат ID:</b><code>" + str(chtid.chat_id) + "</code>")
+        await chtid.edit("<b>Чат ID: </b><code>" + str(chtid.chat_id) + "</code>")
 
 
     async def kickmecmd(self, leave):
@@ -65,8 +65,8 @@ class ChatMod(loader.Module):
         """Команда .users выводит список всех пользователей в чате."""
 
         if message.chat:
-            await message.edit('<b>Считаем...</b>')
             try:
+		await message.edit('<b>Считаем...</b>')
                 info = await message.client.get_entity(message.chat_id)
                 title = info.title if info.title else "this chat"
                 mentions = f'<b>Пользователей в {title}:</b> \n'
