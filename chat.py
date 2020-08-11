@@ -94,9 +94,6 @@ class ChatMod(loader.Module):
         else:
             await message.edit('<b>Это не чат!</b>')
             return
-        
-
-
         try:
             await message.edit(mentions)
         except MessageTooLongError:
@@ -111,7 +108,6 @@ class ChatMod(loader.Module):
                 reply_to=message.id,
             )
             remove("userslist.md")
-
 
 
     async def adminscmd(self, message):
