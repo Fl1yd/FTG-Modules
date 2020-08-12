@@ -63,7 +63,6 @@ class ChatMod(loader.Module):
 
     async def userscmd(self, message):
         """Команда .users выводит список всех пользователей в чате."""
-
         if message.chat:
             try:
                 await message.edit('<b>Считаем...</b>')
