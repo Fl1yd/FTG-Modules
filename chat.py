@@ -5,7 +5,7 @@ from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.errors.rpcerrorlist import MessageTooLongError
 from telethon.errors import ChatAdminRequiredError
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, ChannelParticipantsBots)
+from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, PeerChannel, ChannelParticipantsBots)
 from userbot import bot
 logger = logging.getLogger(__name__)
 
@@ -89,7 +89,8 @@ class ChatMod(loader.Module):
             except ChatAdminRequiredError as err:
                 info = await message.client.get_entity(message.chat_id)
                 title = info.title if info.title else "this chat"
-                mentions = f'<b>Пользователей в "{title}" :</b> \n'
+                users = await message.client.get_participants(message.chat_id)
+                mentions = f'<b>Пользователей в "{title}": {len(users)}</b> \n'
                 mentions += " " + str(err) + "\n"
         else:
             await message.edit('<b>Это не чат!</b>')
@@ -103,7 +104,7 @@ class ChatMod(loader.Module):
             file.close()
             await message.client.send_file(message.chat_id,
                                            "userslist.md",
-                                           caption='Пользователей в "{}: {len(users)}"'.format(title),
+                                           caption='Пользователей в "{}":'.format(title),
                                            reply_to=message.id)
             remove("userslist.md")
 
@@ -114,13 +115,8 @@ class ChatMod(loader.Module):
             await message.edit('<b>Считаем...</b>')
             info = await message.client.get_entity(message.chat_id)
             title = info.title if info.title else "this chat"
-            
-            admins = await utils.get_target(message)
-            if isinstance(message.to_id, PeerChat) or isinstance(message.to_id, PeerChannel):
-                async for user in message.client.iter_participants(message.to_id, filter=ChannelParticipantsAdmins):
-                    if not user.bot:
-            
-                        mentions = f'<b>Админов в "{title}": {len(admins)}</b> \n'
+            admins = await message.client.get_participants(message.chat_id, filter=ChannelParticipantsAdmins)
+            mentions = f'<b>Админов в "{title}": {len(admins)}</b> \n'
             for user in await message.client.get_participants(message.chat_id, filter=ChannelParticipantsAdmins):
                 if not user.deleted:
                     link = f"<a href=\"tg://user?id={user.id}\">{user.first_name}</a>"
@@ -144,13 +140,15 @@ class ChatMod(loader.Module):
         else:
             await message.edit('<b>Это не чат!</b>')
 
+
     async def botscmd(self, message):
         """Команда .bots показывает список всех ботов в чате."""
         if message.chat:
             await message.edit('<b>Считаем...</b>')
             info = await message.client.get_entity(message.chat_id)
             title = info.title if info.title else "this chat"
-            mentions = f'<b>Ботов в "{title}":</b>\n'
+            bots = await message.client.get_participants(message.to_id, filter = ChannelParticipantsBots) 
+            mentions = f'<b>Ботов в "{title}": {len(bots)}</b>\n'
             try:
                 if isinstance(message.to_id, PeerChat):
                     await message.edit('<b>Я слышал, что только чаты могут иметь ботов...</b>')
