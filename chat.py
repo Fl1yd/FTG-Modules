@@ -5,7 +5,7 @@ from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.errors.rpcerrorlist import MessageTooLongError
 from telethon.errors import ChatAdminRequiredError
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import ChannelParticipantsAdmins
+from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, ChannelParticipantsBots)
 from userbot import bot
 logger = logging.getLogger(__name__)
 
@@ -73,16 +73,16 @@ class ChatMod(loader.Module):
                     users=await bot.get_participants(message.chat_id)
                     for user in users:
                         if not user.deleted:
-                            mentions += (f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>")
+                            mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
                         else:
                             mentions += f"\nУдалённый аккаунт<code>{user.id}</code>"
                 else:
                     searchq = utils.get_args_raw(message)
-                    users=await message.client.get_participants(message.chat_id, search=f'{searchq}')
-                    mentions=f'<b>В чате {title} найдено {len(users)} пользователей с именем {searchq}:</b> \n'
+                    users = await message.client.get_participants(message.chat_id, search=f'{searchq}')
+                    mentions = f'<b>В чате {title} найдено {len(users)} пользователей с именем {searchq}:</b> \n'
                     for user in users:
                         if not user.deleted:
-                            mentions += (f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>")
+                            mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
                         else:
                             mentions += f"\nУдалённый аккаунт <code>{user.id}</code>"
             except ChatAdminRequiredError as err:
@@ -100,12 +100,10 @@ class ChatMod(loader.Module):
             file = open("userslist.md", "w+")
             file.write(mentions)
             file.close()
-            await message.client.send_file(
-                message.chat_id,
-                "userslist.md",
-                caption='Пользователей в {}'.format(title),
-                reply_to=message.id,
-            )
+            await message.client.send_file(message.chat_id,
+                                           "userslist.md",
+                                           caption='Пользователей в {}'.format(title),
+                                           reply_to=message.id)
             remove("userslist.md")
 
 
@@ -116,8 +114,7 @@ class ChatMod(loader.Module):
             info = await message.client.get_entity(message.chat_id)
             title = info.title if info.title else "this chat"
             mentions = f'<b>Админов в {title}:</b> \n'
-            for user in await message.client.get_participants(
-                    message.chat_id, filter=ChannelParticipantsAdmins):
+            for user in await message.client.get_participants(message.chat_id, filter=ChannelParticipantsAdmins):
                 if not user.deleted:
                     link = f"<a href=\"tg://user?id={user.id}\">{user.first_name}</a>"
                     userid = f"<code>{user.id}</code>"
@@ -129,13 +126,50 @@ class ChatMod(loader.Module):
             except MessageTooLongError:
                 await message.edit(
                     "Черт, слишком много админов здесь. Загружаю список админов в файл...")
-                file = open("adminlist.txt", "w+")
+                file = open("adminlist.md", "w+")
                 file.write(mentions)
                 file.close()
                 await message.client.send_file(message.chat_id,
-                                               "adminlist.txt",
+                                               "adminlist.md",
                                                caption='Админов в {}'.format(title),
                                                reply_to=message.id)
-                remove("adminlist.txt")
+                remove("adminlist.md")
+        else:
+            await message.edit('<b>Это не чат!</b>')
+
+    async def botscmd(self, message):
+        """Команда .bots показывает список всех ботов в чате."""
+        if message.chat:
+            await message.edit('<b>Считаем...</b>')
+            info = await message.client.get_entity(message.chat_id)
+            title = info.title if info.title else "this chat"
+            mentions = f'<b>Ботов в {title}:</b>\n'
+            try:
+                if isinstance(message.to_id, PeerChat):
+                    await message.edit("`Я слышал, что только супергруппы могут иметь ботов.`")
+                    return
+                else:
+                    async for user in message.client.iter_participants(message.chat_id, filter=ChannelParticipantsBots):
+                        if not user.deleted:
+                            link = f"<a href=\"tg://user?id={user.id}\">{user.first_name}</a>"
+                            userid = f"<code>{user.id}</code>"
+                            mentions += f"\n{link} {userid}"
+                        else:
+                            mentions += f"\nУдалённых ботов <code>{user.id}</code>"
+            except ChatAdminRequiredError as err:
+                mentions += " " + str(err) + "\n"
+            try:
+                await message.edit(mentions, parse_mode="html")
+            except MessageTooLongError:
+                await message.edit(
+                    "Черт, слишком много ботов здесь. Загружаю список ботов в файл...")
+                file = open("botlist.md", "w+")
+                file.write(mentions)
+                file.close()
+                await message.client.send_file(message.chat_id,
+                                               "botlist.md",
+                                               caption='Ботов в in {}'.format(title),
+                                               reply_to=message.id)
+                remove("botlist.md")
         else:
             await message.edit('<b>Это не чат!</b>')
