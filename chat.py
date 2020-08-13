@@ -68,18 +68,19 @@ class ChatMod(loader.Module):
                 await message.edit('<b>Считаем...</b>')
                 info = await message.client.get_entity(message.chat_id)
                 title = info.title if info.title else "this chat"
-                mentions = f'<b>Пользователей в {title}:</b> \n'
+                users = await message.client.get_participants(message.chat_id)
+                mentions = f'<b>Пользователей в "{title}": {len(users)}</b> \n'
                 if not utils.get_args_raw(message):
                     users=await bot.get_participants(message.chat_id)
                     for user in users:
                         if not user.deleted:
                             mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
                         else:
-                            mentions += f"\nУдалённый аккаунт<code>{user.id}</code>"
+                            mentions += f"\nУдалённый аккаунт <code>{user.id}</code>"
                 else:
                     searchq = utils.get_args_raw(message)
                     users = await message.client.get_participants(message.chat_id, search=f'{searchq}')
-                    mentions = f'<b>В чате {title} найдено {len(users)} пользователей с именем {searchq}:</b> \n'
+                    mentions = f'<b>В чате" {title}" найдено {len(users)} пользователей с именем {searchq}:</b> \n'
                     for user in users:
                         if not user.deleted:
                             mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
@@ -88,7 +89,7 @@ class ChatMod(loader.Module):
             except ChatAdminRequiredError as err:
                 info = await message.client.get_entity(message.chat_id)
                 title = info.title if info.title else "this chat"
-                mentions = '<b>Пользователей в {}:</b> \n'.format(title)
+                mentions = f'<b>Пользователей в "{title}" :</b> \n'
                 mentions += " " + str(err) + "\n"
         else:
             await message.edit('<b>Это не чат!</b>')
@@ -102,7 +103,7 @@ class ChatMod(loader.Module):
             file.close()
             await message.client.send_file(message.chat_id,
                                            "userslist.md",
-                                           caption='Пользователей в {}'.format(title),
+                                           caption='Пользователей в "{}: {len(users)}"'.format(title),
                                            reply_to=message.id)
             remove("userslist.md")
 
@@ -113,7 +114,13 @@ class ChatMod(loader.Module):
             await message.edit('<b>Считаем...</b>')
             info = await message.client.get_entity(message.chat_id)
             title = info.title if info.title else "this chat"
-            mentions = f'<b>Админов в {title}:</b> \n'
+            
+            admins = await utils.get_target(message)
+            if isinstance(message.to_id, PeerChat) or isinstance(message.to_id, PeerChannel):
+                async for user in message.client.iter_participants(message.to_id, filter=ChannelParticipantsAdmins):
+                    if not user.bot:
+            
+                        mentions = f'<b>Админов в "{title}": {len(admins)}</b> \n'
             for user in await message.client.get_participants(message.chat_id, filter=ChannelParticipantsAdmins):
                 if not user.deleted:
                     link = f"<a href=\"tg://user?id={user.id}\">{user.first_name}</a>"
@@ -131,7 +138,7 @@ class ChatMod(loader.Module):
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "adminlist.md",
-                                               caption='Админов в {}'.format(title),
+                                               caption='Админов в "{}"'.format(title),
                                                reply_to=message.id)
                 remove("adminlist.md")
         else:
@@ -143,10 +150,10 @@ class ChatMod(loader.Module):
             await message.edit('<b>Считаем...</b>')
             info = await message.client.get_entity(message.chat_id)
             title = info.title if info.title else "this chat"
-            mentions = f'<b>Ботов в {title}:</b>\n'
+            mentions = f'<b>Ботов в "{title}":</b>\n'
             try:
                 if isinstance(message.to_id, PeerChat):
-                    await message.edit("`Я слышал, что только супергруппы могут иметь ботов.`")
+                    await message.edit('<b>Я слышал, что только чаты могут иметь ботов...</b>')
                     return
                 else:
                     async for user in message.client.iter_participants(message.chat_id, filter=ChannelParticipantsBots):
@@ -168,8 +175,8 @@ class ChatMod(loader.Module):
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "botlist.md",
-                                               caption='Ботов в in {}'.format(title),
+                                               caption='Ботов в in "{}"'.format(title),
                                                reply_to=message.id)
                 remove("botlist.md")
         else:
-            await message.edit('<b>Это не чат!</b>')
+            await message.edit('<b>Я слышал, что только чаты могут иметь ботов...</b>')
