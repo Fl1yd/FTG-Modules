@@ -80,7 +80,7 @@ class ChatMod(loader.Module):
                 else:
                     searchq = utils.get_args_raw(message)
                     users = await message.client.get_participants(message.chat_id, search=f'{searchq}')
-                    mentions = f'<b>В чате" {title}" найдено {len(users)} пользователей с именем {searchq}:</b> \n'
+                    mentions = f'<b>В чате "{title}" найдено {len(users)} пользователей с именем {searchq}:</b> \n'
                     for user in users:
                         if not user.deleted:
                             mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
