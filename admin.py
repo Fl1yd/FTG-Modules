@@ -304,7 +304,7 @@ class AdminMod(loader.Module):
 
 
     async def mutecmd(self, mot):
-        """Команда .mute даёт мут пользователю.\nИспользование: .mute <@ или реплай> <время>."""
+        """Команда .mute даёт мут пользователю.\nИспользование: .mute <реплай> <время>."""
         if mot.chat:
             chat = await mot.get_chat()
             admin = chat.admin_rights
