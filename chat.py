@@ -71,7 +71,7 @@ class ChatMod(loader.Module):
                 users = await message.client.get_participants(message.chat_id)
                 mentions = f'<b>Пользователей в "{title}": {len(users)}</b> \n'
                 if not utils.get_args_raw(message):
-                    users=await bot.get_participants(message.chat_id)
+                    users = await bot.get_participants(message.chat_id)
                     for user in users:
                         if not user.deleted:
                             mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
@@ -147,7 +147,7 @@ class ChatMod(loader.Module):
             await message.edit('<b>Считаем...</b>')
             info = await message.client.get_entity(message.chat_id)
             title = info.title if info.title else "this chat"
-            bots = await message.client.get_participants(message.to_id, filter = ChannelParticipantsBots) 
+            bots = await message.client.get_participants(message.to_id, filter=ChannelParticipantsBots)
             mentions = f'<b>Ботов в "{title}": {len(bots)}</b>\n'
             try:
                 if isinstance(message.to_id, PeerChat):
