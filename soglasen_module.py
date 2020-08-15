@@ -25,9 +25,9 @@ class SoglasenMod(loader.Module):
 		self.me = await client.get_me()
 		
 	async def soglcmd(self, message):
-		""".sogl <реплай или текст>"""
+		""".sogl <reply to user/text>"""
 		
-		ufr = requests.get("https://github.com/Fl1yd/FTG-modules/raw/master/staff/font.ttf")
+		ufr = requests.get("https://github.com/Fl1yd/FTG-modules/blob/master/stuff/font.ttf?raw=true")
 		f = ufr.content
 		
 		reply = await message.get_reply_message()
@@ -47,7 +47,7 @@ class SoglasenMod(loader.Module):
 		img = Image.open(io.BytesIO(pic.content)).convert("RGB")
 		black = Image.new("RGBA", img.size, (0, 0, 0, 100))
 		img.paste(black, (0, 0), black)
-
+ 
 		W, H = img.size
 		txt = txt.replace("\n", "𓃐")
 		text = "\n".join(wrap(txt, 40))
@@ -68,3 +68,7 @@ class SoglasenMod(loader.Module):
 		out.seek(0)
 		await message.client.send_file(message.to_id, out, reply_to=reply)
 		await message.delete()
+		
+
+		
+		
