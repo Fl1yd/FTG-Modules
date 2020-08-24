@@ -4,7 +4,6 @@ from .. import loader, utils
 def register(cb):
     cb(ArtsMod())
 
-
 class ArtsMod(loader.Module):
     """Юникод арты"""
     strings = {'name': 'UnicodeArts'}
