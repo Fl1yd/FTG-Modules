@@ -31,7 +31,7 @@ class ArtsMod(loader.Module):
                                "しーＪ   °。  *´¨)\n"
                                "             .· ´¸.·*´¨) ¸.·*¨)\n"
                                "                     (¸.·´ (¸.·'* ☆\n\n"
-                               "Вжух и ты подпишешься -></code> @ftgmodulesbyfl1yd")
+                               "Вжух и ты подпишешься -></code> @ftgmodulesbyfl1yd <code>и</code> @cheats_and_modulesFTG")
 
 
     async def cowsaycmd(self, message):
