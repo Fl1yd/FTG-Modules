@@ -6,7 +6,7 @@ def register(cb):
 
 class ArtsMod(loader.Module):
     """Юникод арты"""
-    strings = {'name': 'UnicodeArts'}
+    strings = {'name': 'Arts'}
 
     async def vjuhcmd(self, message):
         """Используй .vjuh <текст> c:"""
