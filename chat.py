@@ -1,9 +1,11 @@
 import logging
 from .. import loader, utils
 from os import remove
+from telethon import functions
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.errors.rpcerrorlist import MessageTooLongError
-from telethon.errors import ChatAdminRequiredError
+from telethon.errors import (UserIdInvalidError, UserNotMutualContactError, UserPrivacyRestrictedError, BotGroupsBlockedError, ChannelPrivateError,
+                             UserBlockedError, ChatAdminRequiredError, UserKickedError, InputUserDeactivatedError, ChatWriteForbiddenError)
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, PeerChannel, ChannelParticipantsBots)
 from userbot import bot
@@ -51,6 +53,113 @@ class ChatMod(loader.Module):
         await chtid.edit("<b>Чат ID: </b><code>" + str(chtid.chat_id) + "</code>")
 
 
+    async def invitecmd(self, event):
+        """Используйте .invite <@ или реплай>, чтобы добавить пользователя в чат."""
+        if event.fwd_from:
+            return
+        to_add_users = utils.get_args_raw(event)
+        reply = await event.get_reply_message()
+        if not to_add_users and not reply:
+            await event.edit('<b>Нету аргументов.</b>')
+        elif reply:
+            to_add_users = str(reply.from_id)
+        if to_add_users:
+            if not event.is_group and not event.is_channel:
+                return await event.edit('<b>Это не чат!</b>')
+            else:
+                if not event.is_channel and event.is_group:
+                    # https://tl.telethon.dev/methods/messages/add_chat_user.html
+                    for user_id in to_add_users.split(" "):
+                        try:
+                            userID = int(user_id)
+                        except:
+                            userID = user_id
+
+                        try:
+                            await event.client(functions.messages.AddChatUserRequest(chat_id=event.chat_id,
+                                                                                     user_id=userID,
+                                                                                     fwd_limit=1000000))
+                        except ValueError:
+                            await event.reply('<b>Неверный @ или ID.</b>')
+                            return
+                        except UserIdInvalidError:
+                            await event.reply('<b>Неверный @ или ID.</b>')
+                            return
+                        except UserPrivacyRestrictedError:
+                            await event.reply('<b>Настойки приватности пользователя не позволяют пригласить его.</b>')
+                            return
+                        except UserNotMutualContactError:
+                            await event.reply('<b>Настойки приватности пользователя не позволяют пригласить его.</b>')
+                            return
+                        except ChatAdminRequiredError:
+                            await event.reply('<b>У меня нету прав.</b>')
+                            return
+                        except ChatWriteForbiddenError:
+                            await event.reply('<b>У меня нету прав.</b>')
+                            return
+                        except ChannelPrivateError:
+                            await event.reply('<b>У меня нету прав.</b>')
+                            return
+                        except UserKickedError:
+                            await event.reply('<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>')
+                            return
+                        except BotGroupsBlockedError:
+                            await event.reply('<b>Бот заблокирован в чате, обратитесь к администраторам.</b>')
+                            return
+                        except UserBlockedError:
+                            await event.reply('<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>')
+                            return
+                        except InputUserDeactivatedError:
+                            await event.reply('<b>Ошибка! Его аккаунт удалён.</b>')
+                            return
+                    await event.edit('<b>Пользователь приглашён успешно!</b>')
+                else:
+                    # https://tl.telethon.dev/methods/channels/invite_to_channel.html
+                    for user_id in to_add_users.split(" "):
+                        try:
+                            userID = int(user_id)
+                        except:
+                            userID = user_id
+
+                        try:
+                            await event.client(functions.channels.InviteToChannelRequest(channel=event.chat_id,
+                                                                                         users=[userID]))
+                        except ValueError:
+                            await event.reply('<b>Неверный @ или ID.</b>')
+                            return
+                        except UserIdInvalidError:
+                            await event.reply('<b>Неверный @ или ID.</b>')
+                            return
+                        except UserPrivacyRestrictedError:
+                            await event.reply('<b>Настойки приватности пользователя не позволяют пригласить его.</b>')
+                            return
+                        except UserNotMutualContactError:
+                            await event.reply('<b>Настойки приватности пользователя не позволяют пригласить его.</b>')
+                            return
+                        except ChatAdminRequiredError:
+                            await event.reply('<b>У меня нету прав.</b>')
+                            return
+                        except ChatWriteForbiddenError:
+                            await event.reply('<b>У меня нету прав.</b>')
+                            return
+                        except ChannelPrivateError:
+                            await event.reply('<b>У меня нету прав.</b>')
+                            return
+                        except UserKickedError:
+                            await event.reply('<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>')
+                            return
+                        except BotGroupsBlockedError:
+                            await event.reply('<b>Бот заблокирован в чате, обратитесь к администраторам.</b>')
+                            return
+                        except UserBlockedError:
+                            await event.reply('<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>')
+                            return
+                        except InputUserDeactivatedError:
+                            await event.reply('<b>Ошибка! Его аккаунт удалён.</b>')
+                            return
+                        await event.edit('<b>Пользователь приглашён успешно!</b>')
+
+
     async def kickmecmd(self, leave):
         """Используйте команду .kickme, чтобы кикнуть себя из чата."""
         try:
@@ -80,7 +189,7 @@ class ChatMod(loader.Module):
                 else:
                     searchq = utils.get_args_raw(message)
                     users = await message.client.get_participants(message.chat_id, search=f'{searchq}')
-                    mentions = f'<b>В чате "{title}" найдено {len(users)} пользователей с именем {searchq}:</b> \n'
+                    mentions = f'<b>В чате" {title}" найдено {len(users)} пользователей с именем {searchq}:</b> \n'
                     for user in users:
                         if not user.deleted:
                             mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
