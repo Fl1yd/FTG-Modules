@@ -45,10 +45,10 @@ class ArtsMod(loader.Module):
                       "< {} >\n"
                       "\n"
                       "    \   ^__^\n"
-                      "        \  (oo)\_______\n"
+                      "	    \  (oo)\_______\n"
                       "        (__)\       )\/\n"
                       "            ||----w||\n"
-                      "               ||     ||</code>").format(text)
+                      "	           ||     ||</code>").format(text)
             await message.edit(cowsay)
 
 
