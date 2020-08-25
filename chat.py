@@ -183,7 +183,7 @@ class ChatMod(loader.Module):
                     users = await bot.get_participants(message.chat_id)
                     for user in users:
                         if not user.deleted:
-                            mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
+                            mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <b>|</b> <code>{user.id}</code>"
                         else:
                             mentions += f"\nУдалённый аккаунт <code>{user.id}</code>"
                 else:
@@ -192,7 +192,7 @@ class ChatMod(loader.Module):
                     mentions = f'<b>В чате" {title}" найдено {len(users)} пользователей с именем {searchq}:</b> \n'
                     for user in users:
                         if not user.deleted:
-                            mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <code>{user.id}</code>"
+                            mentions += f"\n<a href =\"tg://user?id={user.id}\">{user.first_name}</a> <b>|</b> <code>{user.id}</code>"
                         else:
                             mentions += f"\nУдалённый аккаунт <code>{user.id}</code>"
             except ChatAdminRequiredError as err:
@@ -230,7 +230,7 @@ class ChatMod(loader.Module):
                 if not user.deleted:
                     link = f"<a href=\"tg://user?id={user.id}\">{user.first_name}</a>"
                     userid = f"<code>{user.id}</code>"
-                    mentions += f"\n{link} {userid}"
+                    mentions += f"\n{link} <b>|</b> {userid}"
                 else:
                     mentions += f"\nУдалённый аккаунт <code>{user.id}</code>"
             try:
@@ -267,7 +267,7 @@ class ChatMod(loader.Module):
                         if not user.deleted:
                             link = f"<a href=\"tg://user?id={user.id}\">{user.first_name}</a>"
                             userid = f"<code>{user.id}</code>"
-                            mentions += f"\n{link} {userid}"
+                            mentions += f"\n{link} <b>|</b> {userid}"
                         else:
                             mentions += f"\nУдалённых ботов <code>{user.id}</code>"
             except ChatAdminRequiredError as err:
