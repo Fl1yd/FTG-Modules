@@ -44,11 +44,11 @@ class ArtsMod(loader.Module):
             cowsay = ("<code> "
                       "< {} >\n"
                       "\n"
-                      "    \   ^__^\n"
-                      "	    \  (oo)\_______\n"
-                      "        (__)\       )\/\n"
-                      "            ||----w||\n"
-                      "	           ||     ||</code>").format(text)
+                      "     \   ^__^\n"
+                      "	     \  (oo)\_______\n"
+                      "         (__)\       )\/\n"
+                      "             ||----w||\n"
+                      "	            ||     ||</code>").format(text)
             await message.edit(cowsay)
 
 
