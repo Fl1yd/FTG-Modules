@@ -1,8 +1,9 @@
 import logging
 import time
-from .. import loader, utils
+from .. import loader, utils, security
 from asyncio import sleep
-from telethon.tl.types import (ChatAdminRights, ChatBannedRights, MessageEntityMentionName, PeerUser)
+from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError
+from telethon.tl.types import (ChatAdminRights, ChatBannedRights)
 from telethon.tl.functions.channels import (EditAdminRequest, EditBannedRequest)
 from telethon.tl.functions.messages import (UpdatePinnedMessageRequest, EditChatAdminRequest)
 logger = logging.getLogger(__name__)
