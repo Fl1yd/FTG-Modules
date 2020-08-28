@@ -1,11 +1,10 @@
 # Привет! 
 Здесь находятся модули для юзербота Friendly-Telegram, которые я делал/изменял. 
 
- - Все модули находятся [здесь](https://t.me/ftgmodulesbyfl1yd). 
- - [GitHub Repo](https://github.com/Fl1yd/FTG-modules). 
- 
- 
- 
+ - Все модули находятся [здесь](https://t.me/ftgmodulesbyfl1yd).  
+
+
+
 ### По поводу предложений:
  - [Telegram](https://t.me/Fl1yd). 
  
