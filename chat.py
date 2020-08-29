@@ -213,7 +213,7 @@ class ChatMod(loader.Module):
             file.close()
             await message.client.send_file(message.chat_id,
                                            "userslist.md",
-                                           caption='Пользователей в "{}":'.format(title),
+                                           caption='<b>Список пользователей в "{}":</b>'.format(title),
                                            reply_to=message.id)
             remove("userslist.md")
 
@@ -236,14 +236,13 @@ class ChatMod(loader.Module):
             try:
                 await message.edit(mentions, parse_mode="html")
             except MessageTooLongError:
-                await message.edit(
-                    "Черт, слишком много админов здесь. Загружаю список админов в файл...")
+                await message.edit("<b>Черт, слишком много админов здесь. Загружаю список админов в файл...</b>")
                 file = open("adminlist.md", "w+")
                 file.write(mentions)
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "adminlist.md",
-                                               caption='Админов в "{}"'.format(title),
+                                               caption='<b>Список админов в "{}":</b>'.format(title),
                                                reply_to=message.id)
                 remove("adminlist.md")
         else:
@@ -275,14 +274,13 @@ class ChatMod(loader.Module):
             try:
                 await message.edit(mentions, parse_mode="html")
             except MessageTooLongError:
-                await message.edit(
-                    "Черт, слишком много ботов здесь. Загружаю список ботов в файл...")
+                await message.edit("<b>Черт, слишком много ботов здесь. Загружаю список ботов в файл...</b>")
                 file = open("botlist.md", "w+")
                 file.write(mentions)
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "botlist.md",
-                                               caption='Ботов в in "{}"'.format(title),
+                                               caption='<b>Список ботов в "{}":</b>'.format(title),
                                                reply_to=message.id)
                 remove("botlist.md")
         else:
