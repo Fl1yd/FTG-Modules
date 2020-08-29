@@ -397,61 +397,64 @@ class AdminMod(loader.Module):
         if not delus.is_group:
             await utils.answer(delus, self.strings('this_isn`t_a_chat', delus)) 
             return
-        con = utils.get_args_raw(delus)
-        del_u = 0
-        del_status = '<b>Нету удалённых аккаунтов, чат очищен.</b>'
+        try:
+            con = utils.get_args_raw(delus)
+            del_u = 0
+            del_status = '<b>Нету удалённых аккаунтов, чат очищен.</b>'
         
-        if con != "clean":
-            await utils.answer(delus, self.strings('del_u_search', delus)) 
+            if con != "clean":
+                await utils.answer(delus, self.strings('del_u_search', delus))
+                async for user in delus.client.iter_participants(delus.chat_id):
+                    if user.deleted:
+                        del_u += 1
+                        await sleep(1)
+
+                if del_u == 1:
+                    del_status = f"<b>Найден {del_u} удаленный аккаунт в чате, очистите их с помощью </b><code>.delusers clean</code><b>.</b>"
+                if del_u > 0:
+                    del_status = f"<b>Найдено {del_u} удаленных аккаунтов в чате, очистите их с помощью </b><code>.delusers clean</code><b>.</b>"
+
+                await delus.edit(del_status)
+                return
+
+            chat = await delus.get_chat()
+            admin = chat.admin_rights
+            creator = chat.creator
+            if not admin and not creator:
+                await utils.answer(delus, self.strings('not_admin', delus))
+                return
+
+            await utils.answer(delus, self.strings('del_u_kicking', delus))
+            del_u = 0
+            del_a = 0
+
             async for user in delus.client.iter_participants(delus.chat_id):
                 if user.deleted:
+                    try:
+                        await delus.client(EditBannedRequest(delus.chat_id, user.id, BANNED_RIGHTS))
+                    except ChatAdminRequiredError:
+                        await utils.answer(delus, self.strings('no_rights', delus))
+                        return
+                    except UserAdminInvalidError:
+                        del_u -= 1
+                        del_a += 1
+                    await delus.client(EditBannedRequest(delus.chat_id, user.id, UNBAN_RIGHTS))
                     del_u += 1
-                    await sleep(1)
-                    
+
             if del_u == 1:
-                del_status = f"<b>Найден {del_u} удаленный аккаунт в чате, очистите их с помощью </b><code>.delusers clean</code><b>.</b>"
+                del_status = f"<b>Кикнут {del_u} удалённый аккаунт</b>"
             if del_u > 0:
-                del_status = f"<b>Найдено {del_u} удаленных аккаунтов в чате, очистите их с помощью </b><code>.delusers clean</code><b>.</b>"
+                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов</b>"
+
+            if del_a == 1:
+                del_status = f"<b>Кикнут {del_u} удалённый аккаунт\
+                \n{del_a} удалённые аккаунты админов не кикнуты</b>"
+            if del_a > 0:
+                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов\
+                \n{del_a} удалённые аккаунты админов не кикнуты</b>"
 
             await delus.edit(del_status)
-            return
-
-        chat = await delus.get_chat()
-        admin = chat.admin_rights
-        creator = chat.creator
-        if not admin and not creator:
-            await utils.answer(delus, self.strings('not_admin', delus)) 
-            return
-
-        await utils.answer(delus, self.strings('del_u_kicking', delus)) 
-        del_u = 0
-        del_a = 0
-
-        async for user in delus.client.iter_participants(delus.chat_id):
-            if user.deleted:
-                try:
-                    await delus.client(EditBannedRequest(delus.chat_id, user.id, BANNED_RIGHTS))
-                except ChatAdminRequiredError:
-                    await utils.answer(delus, self.strings('no_rights', delus)) 
-                    return
-                except UserAdminInvalidError:
-                    del_u -= 1
-                    del_a += 1
-                await delus.client(EditBannedRequest(delus.chat_id, user.id, UNBAN_RIGHTS))
-                del_u += 1
-
-        if del_u == 1:
-            del_status = f"<b>Кикнут {del_u} удалённый аккаунт</b>"
-        if del_u > 0:
-            del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов</b>"
-
-        if del_a == 1:
-            del_status = f"<b>Кикнут {del_u} удалённый аккаунт\
-            \n{del_a} удалённые аккаунты админов не кикнуты</b>"
-        if del_a > 0:
-            del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов\
-            \n{del_a} удалённые аккаунты админов не кикнуты</b>"
-
-        await delus.edit(del_status)
-        await sleep(2)
-        await delus.delete() 
+            await sleep(2)
+        except:
+            await delus.edit(f'<b>Кикнуто {del_u}(максимум) удалённых аккаунтов.\nИспользуйте:</b> <code>.delusers clean</code><b> для того, чтобы закончить чистку.</b>')
+            return 
