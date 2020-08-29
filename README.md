@@ -12,7 +12,7 @@
  
 ### Модули:
 - <b>[Админ модуль](https://github.com/Fl1yd/FTG-modules/blob/master/admin.py):</b>  
-	- **_Функционал:_**  
+	- <b>Функционал:</b>  
 		Всё команды подробно расписаны в `.help AdminTools`.  
 
 		```
@@ -22,8 +22,8 @@
 		```
   
 
-- [Чат модуль](https://github.com/Fl1yd/FTG-modules/blob/master/chat.py):  
-	- Функционал:  
+- <b>[Чат модуль](https://github.com/Fl1yd/FTG-modules/blob/master/chat.py):</b>  
+	- <b>Функционал:</b>  
 		Все команды подробно расписаны в `.help Chat`.  
 
 		```
