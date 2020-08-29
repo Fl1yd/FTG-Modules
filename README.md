@@ -35,6 +35,17 @@
 
 - <b>[WhoIs](https://github.com/Fl1yd/FTG-modules/blob/master/don%60t_work.py):</b>  
 	- <b>Функционал:</b>  
-		Модуль временно не работает.  
+		Модуль временно не работает.
+  
 
+- <b>[Кик рандом](https://github.com/Fl1yd/FTG-modules/blob/master/kick.py):</b>  
+	- <b>Функционал:</b>  
+		Используя команду `.kickrand` рандом выберет случайного пользователя из чата, и кикнет его.  
+
+		```
+		Установка:
+
+		.dlmod https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/kick_random.py
+		```
+   
 Постепенно модули будут добавляться...
