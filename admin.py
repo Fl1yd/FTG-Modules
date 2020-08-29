@@ -454,7 +454,6 @@ class AdminMod(loader.Module):
                 \n{del_a} удалённые аккаунты админов не кикнуты</b>"
 
             await delus.edit(del_status)
-            await sleep(2)
         except:
             await delus.edit(f'<b>Кикнуто {del_u}(максимум) удалённых аккаунтов.\nИспользуйте:</b> <code>.delusers clean</code><b> для того, чтобы закончить чистку.</b>')
             return 
