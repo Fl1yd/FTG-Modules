@@ -12,7 +12,7 @@
  
 ### Модули:
 - <b>[Админ модуль](https://github.com/Fl1yd/FTG-modules/blob/master/admin.py):</b>  
-	- <u>Функционал:</u>  
+	- **_Функционал:_**  
 		Всё команды подробно расписаны в `.help AdminTools`.  
 
 		```
