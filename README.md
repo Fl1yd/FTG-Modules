@@ -11,7 +11,7 @@
  
  
 ### Модули:
-- [Админ модуль](https://github.com/Fl1yd/FTG-modules/blob/master/admin.py):  
+- <b>[Админ модуль](https://github.com/Fl1yd/FTG-modules/blob/master/admin.py):</b>  
 	- Функционал:  
 		Всё команды подробно расписаны в `.help AdminTools`.  
 
