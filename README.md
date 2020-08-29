@@ -33,4 +33,8 @@
 		```
   
 
+- [WhoIs](https://github.com/Fl1yd/FTG-modules/blob/master/don%60t_work.py):  
+	- Функционал:  
+		Модуль временно не работает.  
+
 Постепенно модули будут добавляться...
