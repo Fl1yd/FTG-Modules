@@ -210,7 +210,7 @@ class AdminMod(loader.Module):
             await utils.answer(pint, self.strings('this_isn`t_a_chat', pint))
 
     async def unpincmd(self, unpon):
-        """Команда .unpin открепляет закрепленное сообщение в чате."""
+        """Команда .unpin открепляет закрепленное сообщение в чате.\nИспользование: .unpin."""
         if unpon.chat:
             try:
                 await utils.answer(unpon, self.strings('unpinning', unpon))
