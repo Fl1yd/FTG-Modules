@@ -499,13 +499,14 @@ class AdminMod(loader.Module):
                 del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов.</b>"
 
             if del_a == 1:
-                del_status = f"<b>Кикнут {del_u} удалённый аккаунт.\
-                \n{del_a} удалённый аккаунт админа не кикнут.</b>"
+                del_status = f"<b>Кикнут {del_u} удалённый аккаунт.\n" \
+                             f"{del_a} удалённый аккаунт админа не кикнут.</b>"
             if del_a > 0:
-                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов.\
-                \n{del_a} удалённые аккаунта админов не кикнуты.</b>"
+                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов.\n" \
+                             f"{del_a} удалённых аккаунта админов не кикнуты.</b>"
 
             await delus.edit(del_status)
         except FloodWaitError as e:
-            await delus.edit('<b>Кикнуто {} удалённых аккаунтов.\nФлудвейт {} секунд вызван ошибкой "Изменение информации".</b>'.format(del_u, e.seconds))
+            await delus.edit('<b>Кикнуто {} удалённых аккаунтов.\n'
+                             'Флудвейт {} секунд вызван ошибкой "Изменение информации".</b>'.format(del_u, e.seconds))
             return
