@@ -1,3 +1,4 @@
+# Creator: @Fl1yd
 import logging
 import time
 from .. import loader, utils, security
@@ -493,16 +494,16 @@ class AdminMod(loader.Module):
                     del_u += 1
 
             if del_u == 1:
-                del_status = f"<b>Кикнут {del_u} удалённый аккаунт</b>"
+                del_status = f"<b>Кикнут {del_u} удалённый аккаунт.</b>"
             if del_u > 0:
-                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов</b>"
+                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов.</b>"
 
             if del_a == 1:
-                del_status = f"<b>Кикнут {del_u} удалённый аккаунт\
-                \n{del_a} удалённые аккаунты админов не кикнуты</b>"
+                del_status = f"<b>Кикнут {del_u} удалённый аккаунт.\
+                \n{del_a} удалённый аккаунт админа не кикнут.</b>"
             if del_a > 0:
-                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов\
-                \n{del_a} удалённые аккаунты админов не кикнуты</b>"
+                del_status = f"<b>Кикнуто {del_u} удалённых аккаунтов.\
+                \n{del_a} удалённые аккаунта админов не кикнуты.</b>"
 
             await delus.edit(del_status)
         except FloodWaitError as e:
