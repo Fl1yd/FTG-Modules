@@ -1,3 +1,8 @@
+# Major change by @Fl1yd
+#
+# Channel: @ftgmodulesbyfl1yd
+#============================
+
 import os
 from .. import loader, utils
 from telethon.tl.functions.photos import GetUserPhotosRequest
