@@ -13,8 +13,8 @@ class WhoIsMod(loader.Module):
     strings = {'name': 'WhoIs'}
 
     async def whoiscmd(self, whos):
+        """Используй .whois <@ или реплай>; ничего"""
         await whos.edit("<b>Получаю информацию о пользователе...</b>")
-
         replied_user = await get_user(whos)
 
         try:
@@ -24,7 +24,6 @@ class WhoIsMod(loader.Module):
             return
 
         message_id_to_reply = whos.reply_to_msg_id
-
         if not message_id_to_reply:
             message_id_to_reply = None
 
@@ -128,17 +127,17 @@ async def fetch_info(replied_user, event):
     user_bio = "У пользователя нету информации о себе." if not user_bio else user_bio
 
     caption = "<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
-    caption += f"Имя: {first_name}\n"
-    caption += f"Фамилия: {last_name}\n"
-    caption += f"Юзернейм: {username}\n"
-    caption += f"ID: <code>{user_id}</code>\n"
-    caption += f"Бот: {is_bot}\n"
-    caption += f"Ограничен: {restricted}\n"
-    caption += f"Верифицирован: {verified}\n\n"
-    caption += f"О себе: \n<code>{user_bio}</code>\n\n"
-    caption += f"Кол-во аватарок в профиле: {replied_user_profile_photos_count}\n"
-    caption += f"Общие чаты: {common_chat}\n"
-    caption += f"Пермалинк: "
+    caption += f"<b>Имя:</b> {first_name}\n"
+    caption += f"<b>Фамилия:</b> {last_name}\n"
+    caption += f"<b>Юзернейм:</b> {username}\n"
+    caption += f"<b>ID:</b> <code>{user_id}</code>\n"
+    caption += f"<b>Бот:</b> {is_bot}\n"
+    caption += f"<b>Ограничен:</b> {restricted}\n"
+    caption += f"<b>Верифицирован:</b> {verified}\n\n"
+    caption += f"<b>О себе:</b> \n<code>{user_bio}</code>\n\n"
+    caption += f"<b>Кол-во аватарок в профиле:</b> {replied_user_profile_photos_count}\n"
+    caption += f"<b>Общие чаты:</b> {common_chat}\n"
+    caption += f"<b>Пермалинк:</b> "
     caption += f"<a href=\"tg://user?id={user_id}\">клик</a>"
 
     return photo, caption
