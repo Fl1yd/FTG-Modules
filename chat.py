@@ -12,6 +12,7 @@ from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, PeerChannel,
 from userbot import bot
 logger = logging.getLogger(__name__)
 
+
 def register(cb):
     cb(ChatMod())
 
