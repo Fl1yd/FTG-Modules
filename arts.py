@@ -1,6 +1,8 @@
 import random
 import logging
 from .. import loader, utils
+from asyncio import sleep
+from ..loader import ModuleConfig as mc
 logger = logging.getLogger(__name__)
 
 def register(cb):
@@ -10,6 +12,10 @@ class ArtsMod(loader.Module):
     """Юникод арты"""
     strings = {'name': 'Arts'}
 
+    def __init__(self):
+        self.config = mc("F_LENGTHS", [5, 1, 1, 4, 1, 1, 1])
+        
+        
     async def vjuhcmd(self, message):
         """Используй .vjuh <текст> c:"""
         text = utils.get_args_raw(message)
@@ -396,8 +402,8 @@ class ArtsMod(loader.Module):
 
 
     async def unocmd(self, message):
-      """Используй .uno с:"""
-      uno = ("⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n" 
+        """Используй .uno с:"""
+        uno = ("⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n" 
              "⣿⣿⡟⡴⠛⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n"
              "⣿⡏⠴⠞⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n"
              "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n"
@@ -410,9 +416,31 @@ class ArtsMod(loader.Module):
              "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢣⠞⢺⣿⡇\n"
              "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢡⡴⣣⣿⣿⡇\n"
              "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⡇")
-      await message.edit(uno) 
-      
-      
+        await message.edit(uno)
+
+
+    async def huycmd(self, message):
+        """Используй .huy <emoji>; ничего"""
+        emoji = utils.get_args_raw(message)
+        huy = ("🍆🍆\n"
+               "🍆🍆🍆\n"
+               "  🍆🍆🍆\n"
+               "    🍆🍆🍆\n"
+               "     🍆🍆🍆\n"
+               "       🍆🍆🍆\n"
+               "        🍆🍆🍆\n"
+               "         🍆🍆🍆\n"
+               "          🍆🍆🍆\n"
+               "          🍆🍆🍆\n"
+               "      🍆🍆🍆🍆\n"
+               " 🍆🍆🍆🍆🍆🍆\n"
+               " 🍆🍆🍆  🍆🍆🍆\n"
+               "    🍆🍆          🍆🍆")
+        if emoji:
+            huy = huy.replace('🍆', emoji)
+        await message.edit(huy)
+
+
     async def fcmd(self, message):
         """Используй .f с:"""
         args = utils.get_args_raw(message)
@@ -442,7 +470,7 @@ class ArtsMod(loader.Module):
                                             "̥̜F̞͎F̖̲F̦̹F̬̘ \n"
                                             "̦̬F̺̭F͖̗F͕͍F̟͙ ͓͍")
             elif r == 3:
-                await utils.answer(message, "🌕🌕🌕🌕🌕??🌕🌕🌕🌕🌕\n"
+                await utils.answer(message, "🌕🌕🌕🌕🌕🌕🌕🌕🌕🌕🌕\n"
                                             "🌕🌕🌕🌕🌕🌕🌕🌕🌕🌕🌕\n"
                                             "🌕🌕🌗🌑🌑🌑🌑🌑🌓🌕🌕\n"
                                             "🌕🌕🌗🌑🌑🌑🌑🌑🌕🌕🌕\n"
@@ -469,3 +497,9 @@ class ArtsMod(loader.Module):
                                             "██╔═╝░░\n"
                                             "██║░░░░\n"
                                             "╚═╝░░░░")
+        if args:
+            out = ""
+            for line in self.config["F_LENGTHS"]:
+                c = max(round(line / len(args)), 1)
+                out += (args * c) + "\n"
+            await utils.answer(message, "<code>" + utils.escape_html(out) + "</code>")
