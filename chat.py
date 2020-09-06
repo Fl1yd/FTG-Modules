@@ -62,7 +62,7 @@ class ChatMod(loader.Module):
         to_add_users = utils.get_args_raw(event)
         reply = await event.get_reply_message()
         if not to_add_users and not reply:
-            await event.edit("<b>Нету аргументов.</b>")
+            await event.edit("<b>Нет аргументов.</b>")
         elif reply:
             to_add_users = str(reply.from_id)
         if to_add_users:
@@ -94,13 +94,13 @@ class ChatMod(loader.Module):
                             await event.reply("<b>Настойки приватности пользователя не позволяют пригласить его.</b>")
                             return
                         except ChatAdminRequiredError:
-                            await event.reply("<b>У меня нету прав.</b>")
+                            await event.reply("<b>У меня нет прав.</b>")
                             return
                         except ChatWriteForbiddenError:
-                            await event.reply("<b>У меня нету прав.</b>")
+                            await event.reply("<b>У меня нет прав.</b>")
                             return
                         except ChannelPrivateError:
-                            await event.reply("<b>У меня нету прав.</b>")
+                            await event.reply("<b>У меня нет прав.</b>")
                             return
                         except UserKickedError:
                             await event.reply("<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>")
@@ -139,13 +139,13 @@ class ChatMod(loader.Module):
                             await event.reply("<b>Настойки приватности пользователя не позволяют пригласить его.</b>")
                             return
                         except ChatAdminRequiredError:
-                            await event.reply("<b>У меня нету прав.</b>")
+                            await event.reply("<b>У меня нет прав.</b>")
                             return
                         except ChatWriteForbiddenError:
-                            await event.reply("<b>У меня нету прав.</b>")
+                            await event.reply("<b>У меня нет прав.</b>")
                             return
                         except ChannelPrivateError:
-                            await event.reply("<b>У меня нету прав.</b>")
+                            await event.reply("<b>У меня нет прав.</b>")
                             return
                         except UserKickedError:
                             await event.reply("<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>")
