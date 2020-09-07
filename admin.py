@@ -452,7 +452,7 @@ class AdminMod(loader.Module):
         try:
             con = utils.get_args_raw(delus)
             del_u = 0
-            del_status = '<b>Нету удалённых аккаунтов, чат очищен.</b>'
+            del_status = '<b>Нет удалённых аккаунтов, чат очищен.</b>'
 
             if con != "clean":
                 await utils.answer(delus, self.strings('del_u_search', delus))
