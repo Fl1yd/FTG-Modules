@@ -180,7 +180,7 @@ class ChatMod(loader.Module):
                 info = await message.client.get_entity(message.chat_id)
                 title = info.title if info.title else "this chat"
                 users = await message.client.get_participants(message.chat_id)
-                mentions = f"<b>Пользователей в {title}: {len(users)}</b> \n"
+                mentions = f'<b>Пользователей в "{title}": {len(users)}</b> \n'
                 if not utils.get_args_raw(message):
                     users = await bot.get_participants(message.chat_id)
                     for user in users:
