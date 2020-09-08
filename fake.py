@@ -6,12 +6,12 @@ from asyncio import sleep
 def register(cb):
     cb(FakeMod()) 
     
-class FaleMod(loader.Module):
+class FakeMod(loader.Module):
     """Показывает фейковые действия."""
     strings = {'name': 'Fake Actions'} 
     
     async def fakecmd(self, event):
-        """Использование: .fake <действие>.\nСписок действий: typing, contact, game, location, voice, round, video, photo, document. Отмена: cancel"""
+        """Использование: .fake <действие>.\nСписок действий: typing, contact, game, location, voice, round, video, photo, document.\nОтмена: .fake cancel"""
         options = ['typing', 'contact', 'game', 'location', 'voice', 'round', 'video','photo', 'document', 'cancel']
         input_str = utils.get_args_raw(event)
         args = input_str.split()
