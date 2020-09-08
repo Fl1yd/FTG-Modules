@@ -12,8 +12,8 @@ class ArtsMod(loader.Module):
     """Юникод арты"""
     strings = {'name': 'Arts'}
 
-    def __init__(self):
-        self.config = mc("F_LENGTHS", [5, 1, 1, 4, 1, 1, 1])
+    # def __init__(self):
+    #     self.config = mc("F_LENGTHS", [5, 1, 1, 4, 1, 1, 1])
         
         
     async def vjuhcmd(self, message):
@@ -422,9 +422,9 @@ class ArtsMod(loader.Module):
                                             "██╔═╝░░\n"
                                             "██║░░░░\n"
                                             "╚═╝░░░░")
-        if args:
-            out = ""
-            for line in self.config["F_LENGTHS"]:
-                c = max(round(line / len(args)), 1)
-                out += (args * c) + "\n"
-            await utils.answer(message, "<code>" + utils.escape_html(out) + "</code>")
+        # if args:
+        #     out = ""
+        #     for line in self.config["F_LENGTHS"]:
+        #         c = max(round(line / len(args)), 1)
+        #         out += (args * c) + "\n"
+        #     await utils.answer(message, "<code>" + utils.escape_html(out) + "</code>")
