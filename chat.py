@@ -1,6 +1,5 @@
 import logging
 from .. import loader, utils
-from asyncio import sleep
 from os import remove
 from telethon import functions
 from telethon.tl.functions.channels import LeaveChannelRequest
@@ -8,7 +7,7 @@ from telethon.errors.rpcerrorlist import MessageTooLongError
 from telethon.errors import (UserIdInvalidError, UserNotMutualContactError, UserPrivacyRestrictedError, BotGroupsBlockedError, ChannelPrivateError,
                              UserBlockedError, ChatAdminRequiredError, UserKickedError, InputUserDeactivatedError, ChatWriteForbiddenError)
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, PeerChannel, ChannelParticipantsBots)
+from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, ChannelParticipantsBots)
 from userbot import bot
 logger = logging.getLogger(__name__)
 
@@ -33,17 +32,15 @@ class ChatMod(loader.Module):
 
 
     async def useridcmd(self, usrid):
-        """Команда .userid показывает ID выбранного пользователя"""
+        """Команда .userid <@ или реплай> показывает ID выбранного пользователя."""
         if usrid.is_reply:
             full = await self.client(GetFullUserRequest((await usrid.get_reply_message()).from_id))
         else:
             args = utils.get_args(usrid)
-            if not args:
-                return await utils.answer(usrid, "<b>Нет аргумента или реплая.</b>")
             try:
                 full = await self.client(GetFullUserRequest(args[0]))
-            except ValueError:
-                return await utils.answer(usrid, "<b>Не удалось найти этого пользователя.</b>")
+            except:
+                full = await self.client(GetFullUserRequest(usrid.from_id))
         logger.debug(full)
         message = ("<b>Имя:</b> <code>{}</code>\n".format(self._handle_string(full.user.first_name)))
         message += ("<b>ID:</b> <code>{}</code>".format(utils.escape_html(full.user.id)))
@@ -215,13 +212,13 @@ class ChatMod(loader.Module):
             file.close()
             await message.client.send_file(message.chat_id,
                                            "userslist.md",
-                                           caption="Пользователей в {}:".format(title),
+                                           caption="<b>Пользователей в {}:</b>".format(title),
                                            reply_to=message.id)
             remove("userslist.md")
 
 
     async def adminscmd(self, message):
-        """Команда .admins <имя> показывает список всех админов в чате."""
+        """Команда .admins показывает список всех админов в чате."""
         if message.chat:
             await message.edit("<b>Считаем...</b>")
             info = await message.client.get_entity(message.chat_id)
@@ -244,7 +241,7 @@ class ChatMod(loader.Module):
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "adminlist.md",
-                                               caption="Админов в {}".format(title),
+                                               caption="<b>Админов в {}:<b>".format(title),
                                                reply_to=message.id)
                 remove("adminlist.md")
         else:
@@ -283,7 +280,7 @@ class ChatMod(loader.Module):
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "botlist.md",
-                                               caption="Ботов в {}:".format(title),
+                                               caption="<b>Ботов в {}:</b>".format(title),
                                                reply_to=message.id)
                 remove("botlist.md")
         else:
