@@ -1,11 +1,28 @@
+# Chat Module for Friendly-Telegram UserBot.
+# Copyright (C) 2020 @Fl1yd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# ======================================================================
+
 import logging
 from .. import loader, utils
 from os import remove
 from telethon import functions
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.errors.rpcerrorlist import MessageTooLongError
-from telethon.errors import (UserIdInvalidError, UserNotMutualContactError, UserPrivacyRestrictedError, BotGroupsBlockedError, ChannelPrivateError,
-                             UserBlockedError, ChatAdminRequiredError, UserKickedError, InputUserDeactivatedError, ChatWriteForbiddenError)
+from telethon.errors import (UserIdInvalidError, UserNotMutualContactError, UserPrivacyRestrictedError, BotGroupsBlockedError, ChannelPrivateError, YouBlockedUserError,
+                             UserBlockedError, ChatAdminRequiredError, UserKickedError, InputUserDeactivatedError, ChatWriteForbiddenError, UserAlreadyParticipantError)
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, ChannelParticipantsBots)
 from userbot import bot
@@ -17,7 +34,7 @@ def register(cb):
 
 class ChatMod(loader.Module):
     """Чат модуль"""
-    strings = {'name': 'Chat'}
+    strings = {'name': 'ChatModule'}
 
     def __init__(self):
         self.config = loader.ModuleConfig("Зашифровать", False, lambda m: ("Кодировать символы Юникода", m))
@@ -109,7 +126,13 @@ class ChatMod(loader.Module):
                             await event.reply("<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>")
                             return
                         except InputUserDeactivatedError:
-                            await event.reply("<b>Ошибка! Его аккаунт удалён.</b>")
+                            await event.reply("<b>Аккаунт пользователя удалён.</b>")
+                            return
+                        except UserAlreadyParticipantError:
+                            await event.reply("<b>Пользователь уже в группе.</b>")
+                            return
+                        except YouBlockedUserError:
+                            await event.reply("<b>Вы заблокировали этого пользователя.</b>")
                             return
                     await event.edit("<b>Пользователь приглашён успешно!</b>")
                 else:
@@ -154,7 +177,13 @@ class ChatMod(loader.Module):
                             await event.reply("<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>")
                             return
                         except InputUserDeactivatedError:
-                            await event.reply("<b>Ошибка! Его аккаунт удалён.</b>")
+                            await event.reply("<b>Аккаунт пользователя удалён.</b>")
+                            return
+                        except UserAlreadyParticipantError:
+                            await event.reply("<b>Пользователь уже в группе.</b>")
+                            return
+                        except YouBlockedUserError:
+                            await event.reply("<b>Вы заблокировали этого пользователя.</b>")
                             return
                         await event.edit("<b>Пользователь приглашён успешно!</b>")
 
