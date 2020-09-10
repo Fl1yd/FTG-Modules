@@ -278,7 +278,7 @@ class ChatMod(loader.Module):
 
 
     async def botscmd(self, message):
-        """Команда .bots <имя> показывает список всех ботов в чате."""
+        """Команда .bots показывает список всех ботов в чате."""
         if message.chat:
             await message.edit("<b>Считаем...</b>")
             info = await message.client.get_entity(message.chat_id)
