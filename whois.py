@@ -33,8 +33,7 @@ class WhoIsMod(loader.Module):
             message_id_to_reply = None
 
         try:
-            await whos.client.send_file(whos.chat_id,
-                                        photo,
+            await whos.client.send_file(whos.chat_id, photo,
                                         caption=caption,
                                         link_preview=False,
                                         force_document=False,
@@ -91,9 +90,7 @@ async def fetch_info(replied_user, event):
     """Подробная информация о пользователе."""
     replied_user_profile_photos = await event.client(
         GetUserPhotosRequest(user_id=replied_user.user.id,
-                             offset=42,
-                             max_id=0,
-                             limit=80))
+                             offset=42, max_id=0, limit=80))
     replied_user_profile_photos_count = "Пользователю нужна помощь с загрузкой аватарки."
     try:
         replied_user_profile_photos_count = replied_user_profile_photos.count
