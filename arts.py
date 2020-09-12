@@ -14,7 +14,7 @@ class ArtsMod(loader.Module):
         """Используй .vjuh <текст> c:"""
         text = utils.get_args_raw(message)
         if not text:
-            await message.edit('<b>Нету текста после команды :c</b>')
+            await message.edit('<b>Нет текста после команды :c</b>')
             return
         else:
             vjuh = ("<code>.∧＿∧\n"
@@ -40,7 +40,7 @@ class ArtsMod(loader.Module):
         """Используй .cowsay <текст> c:"""
         text = utils.get_args_raw(message)
         if not text:
-            await message.edit('<b>Нету текста после команды :c</b>')
+            await message.edit('<b>Нет текста после команды :c</b>')
             return
         else:
             cowsay = ("<code> "
@@ -414,7 +414,7 @@ class ArtsMod(loader.Module):
 
 
     async def huycmd(self, message):
-        """Используй .huy <emoji>; ничего"""
+        """Используй .huy <emoji>; ничего с:"""
         emoji = utils.get_args_raw(message)
         huy = ("🍆🍆\n"
                "🍆🍆🍆\n"
