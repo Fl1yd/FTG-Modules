@@ -11,8 +11,9 @@ class FakeMod(loader.Module):
     strings = {'name': 'Fake Actions'} 
     
     async def fakecmd(self, event):
-        """Использование: .fake <действие>.\nСписок действий: typing, contact, game, location, voice, round, video, photo, document.\nОтмена: .fake cancel"""
-        options = ['typing', 'contact', 'game', 'location', 'voice', 'round', 'video', 'photo', 'document', 'cancel']
+        """Использование: .fake <действие>.\nСписок действий: typing, contact, game, location, record-audio, record-round, record-video, voice, round, video, photo, document.\nОтмена: .fake cancel"""
+        options = ['typing', 'contact', 'game', 'location', 'record-audio', 'record-round',
+                   'record-video', 'voice', 'round', 'video', 'photo', 'document', 'cancel']
         input_str = utils.get_args_raw(event)
         args = input_str.split()
         if len(args) == 0:
