@@ -7,9 +7,10 @@ from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError, Flood
 from telethon.tl.types import (ChatAdminRights, ChatBannedRights)
 from telethon.tl.functions.channels import (EditAdminRequest, EditBannedRequest)
 from telethon.tl.functions.messages import (UpdatePinnedMessageRequest, EditChatAdminRequest)
+
 logger = logging.getLogger(__name__)
 
-#================== КОНСТАНТЫ ========================
+# ================== КОНСТАНТЫ ========================
 
 PROMOTE_RIGHTS = ChatAdminRights(post_messages=True,
                                  add_admins=None,
@@ -39,7 +40,7 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None,
                                  send_inline=False,
                                  embed_links=False)
 
-BANNED_RIGHTS = ChatBannedRights(until_date=None, 
+BANNED_RIGHTS = ChatBannedRights(until_date=None,
                                  view_messages=True,
                                  send_messages=True,
                                  send_media=True,
@@ -49,20 +50,21 @@ BANNED_RIGHTS = ChatBannedRights(until_date=None,
                                  send_inline=True,
                                  embed_links=True)
 
-UNBAN_RIGHTS = ChatBannedRights(until_date=None, 
-                                 view_messages=None,
-                                 send_messages=None,
-                                 send_media=None,
-                                 send_stickers=None,
-                                 send_gifs=None,
-                                 send_games=None,
-                                 send_inline=None,
-                                 embed_links=None)
+UNBAN_RIGHTS = ChatBannedRights(until_date=None,
+                                view_messages=None,
+                                send_messages=None,
+                                send_media=None,
+                                send_stickers=None,
+                                send_gifs=None,
+                                send_games=None,
+                                send_inline=None,
+                                embed_links=None)
 
-#=====================================================
+# =====================================================
 
 def register(cb):
     cb(AdminMod())
+
 
 class AdminMod(loader.Module):
     """Администрирование чата"""
@@ -92,7 +94,7 @@ class AdminMod(loader.Module):
                'unbanned': '<b>{} разбанен в чате.</b>',
                'mute_none': '<b>Некому давать мут.</b>',
                'muted': '<b>{} теперь в муте на </b>',
-               'no_aargs': '<b>Неверно указаны аргументы.</b>', 
+               'no_aargs': '<b>Неверно указаны аргументы.</b>',
                'unmute_none': '<b>Некого размутить.</b>',
                'unmuted': '<b>{} теперь не в муте.</b>',
                'del_u_search': '<b>Поиск удалённых аккаунтов...</b>',
@@ -131,7 +133,8 @@ class AdminMod(loader.Module):
                     await utils.answer(promt, self.strings('no_rights', promt))
                 else:
                     await self.allmodules.log("promote", group=promt.chat_id, affected_uids=[user.id])
-                    await utils.answer(promt, self.strings('promoted', promt).format(utils.escape_html(user.first_name)))
+                    await utils.answer(promt,
+                                       self.strings('promoted', promt).format(utils.escape_html(user.first_name)))
             except FloodWaitError as e:
                 await promt.edit('<b>Флудвейт {} секунд вызван ошибкой "Изменение информации".</b>'.format(e.seconds))
                 return
@@ -141,7 +144,6 @@ class AdminMod(loader.Module):
         else:
             await utils.answer(promt, self.strings('this_isn`t_a_chat', promt))
             return
-
 
     async def demotecmd(self, demt):
         """Команда .demote понижает пользователя в правах администратора.\nИспользование: .demote <@ или реплай>."""
@@ -182,7 +184,6 @@ class AdminMod(loader.Module):
         else:
             await utils.answer(demt, self.strings('this_isn`t_a_chat', demt))
             return
-
 
     async def pincmd(self, pint):
         """Команда .pin закрепляет сообщение в чате.\nИспользование: .pin <реплай>."""
@@ -233,7 +234,6 @@ class AdminMod(loader.Module):
         else:
             await utils.answer(unpon, self.strings('this_isn`t_a_chat', unpon))
 
-
     async def kickcmd(self, kock):
         """Команда .kick кикает пользователя.\nИспользование: .kick <@ или реплай>."""
         if kock.chat:
@@ -274,7 +274,6 @@ class AdminMod(loader.Module):
         else:
             await utils.answer(kock, self.strings('this_isn`t_a_chat', kock))
 
-
     async def bancmd(self, bon):
         """Команда .ban даёт бан пользователю.\nИспользование: .ban <@ или реплай>."""
         if bon.chat:
@@ -311,7 +310,6 @@ class AdminMod(loader.Module):
         else:
             await utils.answer(bon, self.strings('this_isn`t_a_chat', bon))
 
-
     async def unbancmd(self, unbon):
         """Команда .unban для разбана пользователя.\nИспользование: .unban <@ или реплай>."""
         if unbon.chat:
@@ -339,7 +337,8 @@ class AdminMod(loader.Module):
                     await utils.answer(unbon, self.strings('no_rights', unbon))
                 else:
                     await self.allmodules.log("unban", group=unbon.chat_id, affected_uids=[user.id])
-                    await utils.answer(unbon, self.strings('unbanned', unbon).format(utils.escape_html(user.first_name)))
+                    await utils.answer(unbon,
+                                       self.strings('unbanned', unbon).format(utils.escape_html(user.first_name)))
             except FloodWaitError as e:
                 await unbon.edit('<b>Флудвейт {} секунд вызван ошибкой "Изменение информации".</b>'.format(e.seconds))
                 return
@@ -347,7 +346,6 @@ class AdminMod(loader.Module):
                 await utils.answer(unbon, self.strings('wtf_is_it', unbon))
         else:
             await utils.answer(unbon, self.strings('this_isn`t_a_chat', unbon))
-
 
     async def mutecmd(self, mot):
         """Команда .mute даёт мут пользователю.\nИспользование: .mute <реплай> <время (1m, 1h, 1d)>."""
@@ -369,33 +367,34 @@ class AdminMod(loader.Module):
 
                 tim = utils.get_args(mot)
                 if tim:
-                    if len(tim[0])<2:
+                    if len(tim[0]) < 2:
                         return await utils.answer(mot, self.strings('no_aargs', mot))
-                    num=''
-                    t=''
+                    num = ''
+                    t = ''
                     for q in tim[0]:
                         if q.isdigit():
-                            num+=q
+                            num += q
                         else:
-                            t+=q
+                            t += q
 
-                    text=f'<b>{num}'
-                    if t=='m':
-                        num=int(num)*60
-                        text+=' минут(-ы).</b>'
-                    elif t=='d':
-                        num=int(num)*86400
-                        text+=' дня(-ей) .</b>'
-                    elif t=='h':
-                        num=int(num)*3600
-                        text+=' час(-а/-ов).</b>'
+                    text = f'<b>{num}'
+                    if t == 'm':
+                        num = int(num) * 60
+                        text += ' минут(-ы).</b>'
+                    elif t == 'd':
+                        num = int(num) * 86400
+                        text += ' дня(-ей) .</b>'
+                    elif t == 'h':
+                        num = int(num) * 3600
+                        text += ' час(-а/-ов).</b>'
                     else:
                         return await utils.answer(mot, self.strings('no_aargs', mot))
                     timee = ChatBannedRights(until_date=time.time() + int(num), send_messages=True)
                     try:
                         await self.client(EditBannedRequest(mot.chat_id, user.id, timee))
                         await self.allmodules.log("mute", group=mot.chat_id, affected_uids=[user.id])
-                        await utils.answer(mot, self.strings('muted', mot).format(utils.escape_html(user.first_name))+text)
+                        await utils.answer(mot,
+                                           self.strings('muted', mot).format(utils.escape_html(user.first_name)) + text)
                         return
                     except:
                         await utils.answer(mot, self.strings('no_rights', mot))
@@ -406,7 +405,6 @@ class AdminMod(loader.Module):
                 return
         else:
             await utils.answer(mot, self.strings('this_isn`t_a_chat', mot))
-
 
     async def unmutecmd(self, unmot):
         """Команда .unmute для размута пользователя.\nИспользование: .unmute <@ или реплай>."""
@@ -442,8 +440,7 @@ class AdminMod(loader.Module):
                 await utils.answer(unmot, self.strings('wtf_is_it', unmot))
         else:
             await utils.answer(unmot, self.strings('this_isn`t_a_chat', unmot))
-           
-       
+
     async def deluserscmd(self, delus):
         """Команда .delusers показывает список всех удалённых аккаунтов в чате.\nИспользование: .delusers (clean)."""
         if not delus.is_group:
