@@ -33,7 +33,7 @@ class ArtsMod(loader.Module):
                                "しーＪ   °。  *´¨)\n"
                                "             .· ´¸.·*´¨) ¸.·*¨)\n"
                                "                     (¸.·´ (¸.·'* ☆\n\n"
-                               "Вжух и ты подпишешься -></code> @ftgmodulesbyfl1yd <code>и</code> @cheats_and_modulesFTG")
+                               "Вжух и ты подпишешься -></code> @ftgmodulesbyfl1yd")
 
 
     async def cowsaycmd(self, message):
@@ -437,7 +437,7 @@ class ArtsMod(loader.Module):
 
     async def fcmd(self, message):
         """Используй .f с:"""
-        r = random.randint(0, 5)
+        r = random.randint(0, 6)
         logger.debug(r)
         if r == 0:
             await utils.answer(message, "┏━━━┓\n┃┏━━┛\n┃┗━━┓\n┃┏━━┛\n┃┃\n┗┛")
@@ -482,6 +482,23 @@ class ArtsMod(loader.Module):
                                         "┃┏━━┫┏┫┃━┫━━┫━━┫┃┏━━┛\n"
                                         "┃┃╋╋┃┃┃┃━╋━━┣━━┃┃┃\n"
                                         "┗┛╋╋┗┛┗━━┻━━┻━━┛┗┛")
+        elif r == 5:
+            await utils.answer(message, "FFFFFFFFFFFFFFFFFFFFFF\n"
+                                        "F::::::::::::::::::::F\n"
+                                        "F::::::::::::::::::::F\n"
+                                        "FF::::::FFFFFFFFF::::F\n"
+                                        "  F:::::F       FFFFFF\n"
+                                        "  F:::::F\n"
+                                        "  F::::::FFFFFFFFFF\n"
+                                        "  F:::::::::::::::F\n"
+                                        "  F:::::::::::::::F\n"
+                                        "  F::::::FFFFFFFFFF\n"
+                                        "  F:::::F\n"
+                                        "  F:::::F\n"
+                                        "FF:::::::FF\n"
+                                        "F::::::::FF\n"
+                                        "F::::::::FF\n"
+                                        "FFFFFFFFFFF")
         else:
             await utils.answer(message, "██████╗\n"
                                         "██╔═══╝\n"
