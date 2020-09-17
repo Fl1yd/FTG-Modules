@@ -1,7 +1,7 @@
 # Major change by @Fl1yd
 #
 # Channel: @ftgmodulesbyfl1yd
-#============================
+# ============================
 
 import os
 from .. import loader, utils
@@ -12,6 +12,7 @@ from telethon.tl.types import MessageEntityMentionName
 
 def register(cb):
     cb(WhoIsMod())
+
 
 class WhoIsMod(loader.Module):
     """Получает информацию о пользователе в Телеграме (включая вас!)."""
@@ -104,10 +105,10 @@ async def fetch_info(replied_user, event):
     else:
         verified = "Да"
     photo = await event.client.download_profile_photo(user_id, str(user_id) + ".jpg", download_big=True)
-    first_name = first_name.replace("\u2060", "") if first_name else ("Пользователь не указал имя.")
-    last_name = last_name.replace("\u2060", "") if last_name else ("Пользователь не указал фамилии.")
-    username = "@{}".format(username) if username else ("У пользователя нету юзернейма.")
-    user_bio = "У пользователя нету информации о себе." if not user_bio else user_bio
+    first_name = first_name.replace("\u2060", "") if first_name else "Пользователь не указал имя."
+    last_name = last_name.replace("\u2060", "") if last_name else "Пользователь не указал фамилию."
+    username = "@{}".format(username) if username else "У пользователя нету юзернейма."
+    user_bio = "У пользователя нет информации о себе." if not user_bio else user_bio
 
     caption = "<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
     caption += f"<b>Имя:</b> {first_name}\n"
