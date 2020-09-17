@@ -244,6 +244,7 @@ class ChatMod(loader.Module):
                                            caption="<b>Пользователей в {}:</b>".format(title),
                                            reply_to=message.id)
             remove("userslist.md")
+            message.delete()
 
 
     async def adminscmd(self, message):
