@@ -483,7 +483,7 @@ class ArtsMod(loader.Module):
                                         "┃┃╋╋┃┃┃┃━╋━━┣━━┃┃┃\n"
                                         "┗┛╋╋┗┛┗━━┻━━┻━━┛┗┛")
         elif r == 5:
-            await utils.answer(message, "FFFFFFFFFFFFFFFFFFFFFF\n"
+            await utils.answer(message, "<code>FFFFFFFFFFFFFFFFFFFFFF\n"
                                         "F::::::::::::::::::::F\n"
                                         "F::::::::::::::::::::F\n"
                                         "FF::::::FFFFFFFFF::::F\n"
@@ -498,7 +498,7 @@ class ArtsMod(loader.Module):
                                         "FF:::::::FF\n"
                                         "F::::::::FF\n"
                                         "F::::::::FF\n"
-                                        "FFFFFFFFFFF")
+                                        "FFFFFFFFFFF</code>")
         else:
             await utils.answer(message, "██████╗\n"
                                         "██╔═══╝\n"
