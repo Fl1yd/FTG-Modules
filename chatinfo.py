@@ -121,7 +121,7 @@ async def fetch_info(chat, event):
             bots += 1
 
     caption = "<b>ИНФОРМАЦИЯ О ЧАТЕ:</b>\n\n"
-    caption += f"<b>ID:</b> <code>{chat_obj_info.id}\n"
+    caption += f"<b>ID:</b> {chat_obj_info.id}\n"
     if chat_title is not None:
         caption += f"<b>Название группы:</b> {chat_title}\n"
     if former_title is not None:
@@ -143,7 +143,7 @@ async def fetch_info(chat, event):
         chat_level = int((1 + sqrt(1 + 7 * exp_count / 14)) / 2)
         caption += f"<b>Уровень группы:</b> {chat_level}\n"
     if messages_viewable is not None:
-        caption += f"<b>Видимые сообщения:</b> {messages_viewable}</code>\n"
+        caption += f"<b>Видимые сообщения:</b> {messages_viewable}\n"
     if messages_sent:
         caption += f"<b>Всего сообщений:</b> {messages_sent}\n"
     elif messages_sent_alt:
