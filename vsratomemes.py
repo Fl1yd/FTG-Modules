@@ -11,7 +11,7 @@ def register(cb):
 
 class VsratoMemesMod(loader.Module):
     """Всратые мемы."""
-    strings = {'name': 'Всратослав'}
+    strings = {'name': 'Всратые мемы'}
 
     async def wolfcmd(self, event):
         """"Используй .wolf."""
@@ -23,7 +23,7 @@ class VsratoMemesMod(loader.Module):
                 await event.client.send_message(chat, "Дай мне мем, Акела")
                 response = await response
             except YouBlockedUserError:
-                await event.edit('<b>Разблокируй @neuroakelabot</b>')
+                await event.edit("<b>Разблокируй @neuroakelabot</b>")
                 return
             await event.client.send_file(event.to_id, response.media)
         await event.delete()
