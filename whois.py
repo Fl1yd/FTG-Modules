@@ -107,7 +107,7 @@ async def fetch_info(replied_user, event):
     photo = await event.client.download_profile_photo(user_id, str(user_id) + ".jpg", download_big=True)
     first_name = first_name.replace("\u2060", "") if first_name else "Пользователь не указал имя."
     last_name = last_name.replace("\u2060", "") if last_name else "Пользователь не указал фамилию."
-    username = "@{}".format(username) if username else "У пользователя нету юзернейма."
+    username = "@{}".format(username) if username else "У пользователя нет юзернейма."
     user_bio = "У пользователя нет информации о себе." if not user_bio else user_bio
 
     caption = "<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
