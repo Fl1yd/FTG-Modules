@@ -112,35 +112,38 @@ class AdminMod(loader.Module):
 
     async def ecpcmd(self, gpic):
         """Команда .ecp изменяет картинку чата.\nИспользование: .ecp <реплай на картинку/стикер>."""
-        try:
-            replymsg = await gpic.get_reply_message()
-            chat = await gpic.get_chat()
-            admin = chat.admin_rights
-            creator = chat.creator
-            if not admin and not creator:
-                await utils.answer(gpic, self.strings('not_admin', gpic))
-                return
-            if not replymsg:
-                await utils.answer(gpic, self.strings('no_reply', gpic))
-                return
-            else:
-                pic = await check_media(gpic, replymsg)
-                if not pic:
-                    await utils.answer(gpic, self.strings('not_pic', gpic))
+        if gpic.chat:
+            try:
+                replymsg = await gpic.get_reply_message()
+                chat = await gpic.get_chat()
+                admin = chat.admin_rights
+                creator = chat.creator
+                if not admin and not creator:
+                    await utils.answer(gpic, self.strings('not_admin', gpic))
                     return
-            await utils.answer(gpic, self.strings('wait', gpic))
-            what = resize(pic)
-            if what:
-                try:
-                    await gpic.client(EditPhotoRequest(gpic.chat_id, await gpic.client.upload_file(what)))
-                except PhotoCropSizeSmallError:
-                    await utils.answer(gpic, self.strings('pic_so_small', gpic))
+                if not replymsg:
+                    await utils.answer(gpic, self.strings('no_reply', gpic))
                     return
-            await utils.answer(gpic, self.strings('pic_changed', gpic))
-        except:
-            await utils.answer(gpic, self.strings('no_rights', gpic))
-            return 
-
+                else:
+                    pic = await check_media(gpic, replymsg)
+                    if not pic:
+                        await utils.answer(gpic, self.strings('not_pic', gpic))
+                        return
+                await utils.answer(gpic, self.strings('wait', gpic))
+                what = resize(pic)
+                if what:
+                    try:
+                        await gpic.client(EditPhotoRequest(gpic.chat_id, await gpic.client.upload_file(what)))
+                    except PhotoCropSizeSmallError:
+                        await utils.answer(gpic, self.strings('pic_so_small', gpic))
+                        return
+                await utils.answer(gpic, self.strings('pic_changed', gpic))
+            except:
+                await utils.answer(gpic, self.strings('no_rights', gpic))
+                return
+        else:
+            await utils.answer(gpic, self.strings('this_isn`t_a_chat', gpic))
+            return
 
     async def promotecmd(self, promt):
         """Команда .promote повышает пользователя в правах администратора.\nИспользование: .promote <@ или реплай>."""
