@@ -1,13 +1,15 @@
 # Creator: @Fl1yd
+import io
 import logging
 import time
 from .. import loader, utils, security
+from io import BytesIO
+from PIL import Image
 from asyncio import sleep
-from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError, FloodWaitError
+from telethon.errors import (ChatAdminRequiredError, UserAdminInvalidError, FloodWaitError, PhotoCropSizeSmallError)
 from telethon.tl.types import (ChatAdminRights, ChatBannedRights)
-from telethon.tl.functions.channels import (EditAdminRequest, EditBannedRequest)
+from telethon.tl.functions.channels import (EditAdminRequest, EditBannedRequest, EditPhotoRequest)
 from telethon.tl.functions.messages import (UpdatePinnedMessageRequest, EditChatAdminRequest)
-
 logger = logging.getLogger(__name__)
 
 # ================== КОНСТАНТЫ ========================
@@ -69,6 +71,11 @@ def register(cb):
 class AdminMod(loader.Module):
     """Администрирование чата"""
     strings = {'name': 'AdminTools',
+               'no_reply': '<b>Нет реплая на картинку/стикер.</b>',
+               'not_pic': '<b>Это не картинка/стикер</b>',
+               'wait': '<b>Минуточку...</b>',
+               'pic_so_small': '<b>Картинка слишком маленькая, попробуйте другую.</b>',
+               'pic_changed': '<b>Картинка чата изменена.</b>',
                'promote_none': '<b>Некого повышать.</b>',
                'who': '<b>Кто это?</b>',
                'not_admin': '<b>Я здесь не админ.</b>',
@@ -102,6 +109,38 @@ class AdminMod(loader.Module):
 
     async def client_ready(self, client, db):
         self.client = client
+
+    async def ecpcmd(self, gpic):
+        """Команда .ecp изменяет картинку чата.\nИспользование: .ecp <реплай на картинку/стикер>."""
+        try:
+            replymsg = await gpic.get_reply_message()
+            chat = await gpic.get_chat()
+            admin = chat.admin_rights
+            creator = chat.creator
+            if not admin and not creator:
+                await utils.answer(gpic, self.strings('not_admin', gpic))
+                return
+            if not replymsg:
+                await utils.answer(gpic, self.strings('no_reply', gpic))
+                return
+            else:
+                pic = await check_media(gpic, replymsg)
+                if not pic:
+                    await utils.answer(gpic, self.strings('not_pic', gpic))
+                    return
+            await utils.answer(gpic, self.strings('wait', gpic))
+            what = resize(pic)
+            if what:
+                try:
+                    await gpic.client(EditPhotoRequest(gpic.chat_id, await gpic.client.upload_file(what)))
+                except PhotoCropSizeSmallError:
+                    await utils.answer(gpic, self.strings('pic_so_small', gpic))
+                    return
+            await utils.answer(gpic, self.strings('pic_changed', gpic))
+        except:
+            await utils.answer(gpic, self.strings('no_rights', gpic))
+            return 
+
 
     async def promotecmd(self, promt):
         """Команда .promote повышает пользователя в правах администратора.\nИспользование: .promote <@ или реплай>."""
@@ -507,3 +546,35 @@ class AdminMod(loader.Module):
             await delus.edit('<b>Кикнуто {} удалённых аккаунтов.\n'
                              'Флудвейт {} секунд вызван ошибкой "Изменение информации".</b>'.format(del_u, e.seconds))
             return
+
+
+def resize(reply):
+    smth = Image.open(BytesIO(reply))
+    smth = smth.resize((512, 512))
+    out = io.BytesIO()
+    out.name = "outsider.png"
+    smth.save(out)
+    return out.getvalue()
+
+
+async def check_media(message, reply):
+    if reply and reply.media:
+        if reply.photo:
+            data = reply.photo
+        elif reply.document:
+            if reply.gif or reply.video or reply.audio or reply.voice:
+                return None
+            data = reply.media.document
+        else:
+            return None
+    else:
+        return None
+    if not data or data is None:
+        return None
+    else:
+        data = await message.client.download_file(data, bytes)
+        try:
+            Image.open(io.BytesIO(data))
+            return data
+        except:
+            return None
