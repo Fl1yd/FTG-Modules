@@ -15,6 +15,9 @@ class NedoQuotesMod(loader.Module):
         chat = "@ShittyQuoteBot"
         text = utils.get_args_raw(message)
         reply = await message.get_reply_message()
+        if not text and not reply:
+            await message.edit("<b>Нет текста или реплая.</b>")
+            return 
         await message.edit("<b>Минуточку...</b>")
         async with message.client.conversation(chat) as conv:
             if text:
