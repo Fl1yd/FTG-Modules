@@ -132,9 +132,9 @@ async def fetch_info(chat, event):
     else:
         caption += f"<b>Тип группы:</b> Приватный\n"
     if creator_username is not None:
-        caption += f"<b>Создатель:</b> {creator_username}\n"
+        caption += f"<b>Создатель:</b> <code>{creator_username}</code>\n"
     elif creator_valid:
-        caption += f"<b>Создатель:</b> <a href=\"tg://user?id={creator_id}\">{creator_firstname}</a>\n"
+        caption += f"<b>Создатель:</b> <code><a href=\"tg://user?id={creator_id}\">{creator_firstname}</a></code>\n"
     if created is not None:
         caption += f"<b>Создан:</b> {created.date().strftime('%b %d, %Y')} - {created.time()}\n"
     else:
