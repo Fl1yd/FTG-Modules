@@ -82,8 +82,7 @@ async def fetch_info(chat, event):
     creator_firstname = msg_info.users[0].first_name if creator_valid and msg_info.users[0].first_name is not None else "Удалённый аккаунт"
     creator_username = msg_info.users[0].username if creator_valid and msg_info.users[0].username is not None else None
     created = msg_info.messages[0].date if first_msg_valid else None
-    former_title = msg_info.messages[0].action.title if first_msg_valid and type(
-        msg_info.messages[0].action) is MessageActionChannelMigrateFrom and msg_info.messages[0].action.title != chat_title else None
+    former_title = msg_info.messages[0].action.title if first_msg_valid and type(msg_info.messages[0].action) is MessageActionChannelMigrateFrom and msg_info.messages[0].action.title != chat_title else None
     description = chat.full_chat.about
     members = chat.full_chat.participants_count if hasattr(chat.full_chat, "participants_count") else chat_obj_info.participants_count
     admins = chat.full_chat.admins_count if hasattr(chat.full_chat, "admins_count") else None
@@ -97,7 +96,6 @@ async def fetch_info(chat, event):
     messages_viewable = msg_info.count if msg_info else None
     messages_sent = chat.full_chat.read_inbox_max_id if hasattr(chat.full_chat, "read_inbox_max_id") else None
     messages_sent_alt = chat.full_chat.read_outbox_max_id if hasattr(chat.full_chat, "read_outbox_max_id") else None
-    exp_count = chat.full_chat.pts if hasattr(chat.full_chat, "pts") else None
     username = chat_obj_info.username if hasattr(chat_obj_info, "username") else None
     bots_list = chat.full_chat.bot_info
     bots = 0
@@ -139,9 +137,6 @@ async def fetch_info(chat, event):
         caption += f"<b>Создан:</b> {created.date().strftime('%b %d, %Y')} - {created.time()}\n"
     else:
         caption += f"<b>Создан:</b> {chat_obj_info.date.date().strftime('%b %d, %Y')} - {chat_obj_info.date.time()}\n"
-    if exp_count is not None:
-        chat_level = int((1 + sqrt(1 + 7 * exp_count / 14)) / 2)
-        caption += f"<b>Уровень группы:</b> {chat_level}\n"
     if messages_viewable is not None:
         caption += f"<b>Видимые сообщения:</b> {messages_viewable}\n"
     if messages_sent:
