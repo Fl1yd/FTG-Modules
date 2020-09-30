@@ -1,8 +1,5 @@
-# спс за дай модуль
 import logging
-import requests
 from .. import loader, utils
-
 logger = logging.getLogger(__name__)
 
 def register(cb):
@@ -13,7 +10,7 @@ def chunks(lst, n):
         yield lst[i:i + n]
 
 class TagAllMod(loader.Module):
-
+    """Тэгает всех в чате."""
     strings = {"name":"TagAll"}
 
     def __init__(self):
@@ -24,8 +21,8 @@ class TagAllMod(loader.Module):
         self.client = client
 
     async def tagallcmd(self, message):
+        """Используй .tagall <текст (по желанию)>."""
         arg = utils.get_args_raw(message)
-
         logger.error(message)
         notifies = []
         async for user in self.client.iter_participants(message.to_id):
