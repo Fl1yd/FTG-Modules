@@ -28,4 +28,4 @@ class GSBLMod(loader.Module):
         sb.save_video("get_stick_bugged_lol.mp4")
         await event.edit("Отправляю...")
         await event.client.send_file(event.to_id, open("get_stick_bugged_lol.mp4", "rb"), reply_to=reply)
-        await message.delete()
+        await event.delete()
