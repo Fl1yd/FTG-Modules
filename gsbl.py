@@ -13,7 +13,7 @@ class GSBLMod(loader.Module):
     strings = {'name': 'Get-Stick-Bugged-Lol'} 
     
     async def gsblcmd(self, event):
-        """Используй .gsbl <реплай на видео>."""
+        """Используй .gsbl <реплай на картинку/стикер>."""
         try:
             reply = await event.get_reply_message()
             if not reply:
