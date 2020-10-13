@@ -13,7 +13,7 @@ class ArtsMod(loader.Module):
     strings = {'name': 'Arts'}
 
     async def vjuhcmd(self, message):
-        """Используй .vjuh <текст> c:"""
+        """Используй .vjuh <текст>."""
         text = utils.get_args_raw(message)
         if not text:
             await message.edit('<b>Нет текста после команды :c</b>')
@@ -39,7 +39,7 @@ class ArtsMod(loader.Module):
 
 
     async def cowsaycmd(self, message):
-        """Используй .cowsay <текст> c:"""
+        """Используй .cowsay <текст>."""
         text = utils.get_args_raw(message)
         if not text:
             await message.edit('<b>Нет текста после команды :c</b>')
@@ -57,7 +57,7 @@ class ArtsMod(loader.Module):
 
 
     async def padayucmd(self, message):
-        """Используй .padayu <текст>; ничего c:"""
+        """Используй .padayu <текст>; ничего."""
         text = utils.get_args_raw(message)
         if not text:
             text = ("ПАДАЮ")
@@ -123,7 +123,7 @@ class ArtsMod(loader.Module):
 
 
     async def priletelcmd(self, message):
-        """Используй .prilitel <текст>; ничего c:"""
+        """Используй .prilitel <текст>; ничего."""
         text = utils.get_args_raw(message)
         if not text:
             text = ("Я ЛЮБЛЮ СОСАТЬ ХУИ, А ТЫ?!")
@@ -221,7 +221,7 @@ class ArtsMod(loader.Module):
 
 
     async def huytebecmd(self, message):
-        """Используй .huytebe <текст>; ничего c:"""
+        """Используй .huytebe <текст>; ничего."""
         text = utils.get_args_raw(message)
         if not text:
             text = ("ХУЙ ТЕБЕ!")
@@ -275,7 +275,7 @@ class ArtsMod(loader.Module):
 
 
     async def lolcmd(self, message):
-        """Используй .lol с:"""
+        """Используй .lol."""
         lol = ("┏━┓┈┈╭━━━━╮┏━┓┈┈\n"
                "┃╱┃┈┈┃╱╭╮╱┃┃╱┃┈┈\n"
                "┃╱┗━┓┃╱┃┃╱┃┃╱┗━┓\n"
@@ -285,7 +285,7 @@ class ArtsMod(loader.Module):
 
 
     async def fuckyoucmd(self, message):
-        """Используй .fuckyou с:"""
+        """Используй .fuckyou."""
         fuckyou = ("┏━┳┳┳━┳┳┓\n"
                    "┃━┫┃┃┏┫━┫┏┓\n"
                    "┃┏┫┃┃┗┫┃┃┃┃\n"
@@ -298,7 +298,7 @@ class ArtsMod(loader.Module):
 
 
     async def housecmd(self, message):
-        """Используй .house с:"""
+        """Используй .house."""
         house = ("╯▅╰╱▔▔▔▔▔▔▔╲╯╯\n"
                  "▕▕╱╱╱╱╱╱╱╱╱╲╲╭╭\n"
                  "▕▕╱╱╱╱╱╱╱╱┛▂╲╲╭\n"
@@ -310,7 +310,7 @@ class ArtsMod(loader.Module):
 
 
     async def hellocmd(self, message):
-        """Используй .hello с:"""
+        """Используй .hello."""
         hello = ("┈┏┓┏┳━┳┓┏┓┏━━┓┈\n"
                  "┈┃┃┃┃┏┛┃┃┃┃┏┓┃┈\n"
                  "┈┃┗┛┃┗┓┃┃┃┃┃┃┃┈\n"
@@ -321,7 +321,7 @@ class ArtsMod(loader.Module):
 
 
     async def coffeecmd(self, message):
-        """Используй .coffee <текст>; ничего с:"""
+        """Используй .coffee <текст>; ничего."""
         text = utils.get_args_raw(message)
         if not text:
             text = ("Это тебе :з")
@@ -343,7 +343,7 @@ class ArtsMod(loader.Module):
 
 
     async def tvcmd(self, message):
-        """Используй .TV <текст>; ничего с:"""
+        """Используй .tv <текст>; ничего."""
         text = utils.get_args_raw(message)
         if not text:
             text = ("ТЕЛЕВИЗОР ГОВОРИТ ЧТО ТЫ ДОЛБОЁБ!")
@@ -365,7 +365,7 @@ class ArtsMod(loader.Module):
 
 
     async def grencmd(self, message):
-        """Используй .gren <текст>; ничего с:"""
+        """Используй .gren <текст>; ничего."""
         text = utils.get_args_raw(message)
         if not text:
             text = ("ВЗРЫВАЮ ТЕБЯ НАХУЙ!")
@@ -387,7 +387,7 @@ class ArtsMod(loader.Module):
 
 
     async def bruhcmd(self, message):
-        """Используй .bruh с:"""
+        """Используй .bruh."""
         bruh = ("╭━━╮╱╱╱╱╱╭╮\n"
                 "┃╭╮┃╱╱╱╱╱┃┃\n"
                 "┃╰╯╰┳━┳╮╭┫╰━╮\n"
@@ -398,7 +398,7 @@ class ArtsMod(loader.Module):
 
 
     async def unocmd(self, message):
-        """Используй .uno с:"""
+        """Используй .uno."""
         uno = ("⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n"
                "⣿⣿⡟⡴⠛⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n"
                "⣿⡏⠴⠞⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n"
@@ -416,7 +416,7 @@ class ArtsMod(loader.Module):
 
 
     async def huycmd(self, message):
-        """Используй .huy <emoji>; ничего с:"""
+        """Используй .huy <emoji>; ничего."""
         emoji = utils.get_args_raw(message)
         huy = ("🍆🍆\n"
                "🍆🍆🍆\n"
@@ -459,7 +459,7 @@ class ArtsMod(loader.Module):
 
 
     async def fcmd(self, message):
-        """Используй .f с:"""
+        """Используй .f"""
         r = random.randint(0, 6)
         logger.debug(r)
         if r == 0:
