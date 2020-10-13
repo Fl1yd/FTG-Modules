@@ -448,13 +448,13 @@ class ArtsMod(loader.Module):
         if args:
             user = await message.client.get_entity(args)
         imps = ['wasn`t the imposter', 'was the imposter']
-        imp = ("<code>.      　。　　　　•　    　ﾟ　　。\n"
-               "　　.　　　.　　　  .　　　.　　　　　。　　   。　.\n"
-               "　.　　      。        ඞ   。　    . .　.　   •.\n"
-               f"•     {user.first_name} {choice(imps)} 。　..\n"
-               f"　 。     {randint(1, 5)} imposter(s) remains.　　　.　 　..\n"
+        imp = ("<code>.      　。　　　　•　    　ﾟ　　.      .     。\n"
+               "　　.　　　.　　　  .　　　.　　　　　。　　   。　   .\n"
+               "　.　　      。        ඞ   。　    .     　.　      •      .\n"
+               f"•     {user.first_name} {choice(imps)} 。　   .\n"
+               f"　 。     {randint(1, 5)} imposter(s) remains.　　　.　 　.\n"
                ",　　　　.　 .　　       .        •   •    。.\n"
-               "。  •　    　ﾟ  　  •  　ﾟ .        .     . 。　.</code>")
+               "。  •　   .   　ﾟ 　  •  　ﾟ .        .    　.</code>")
         await message.edit(imp)
 
 
