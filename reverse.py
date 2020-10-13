@@ -1,5 +1,5 @@
 from .. import loader, utils
-from telethon.errors import MediaEmptyError
+from telethon.errors import MessageEmptyError
 
 def register(cb):
     cb(ReverseMod())
@@ -19,5 +19,5 @@ class ReverseMod(loader.Module):
                 return await message.edit(f"{reply.raw_text}"[::-1])
             if text:
                 return await message.edit(f"{text}"[::-1])
-        except MediaEmptyError:
+        except MessageEmptyError:
             return await message.edit("Это не текст.")
