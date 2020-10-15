@@ -9,11 +9,11 @@ def register(cb):
     cb(TextOnPhotoMod())
 
 class TextOnPhotoMod(loader.Module):
-	"""Добавляет текст на картинку/стикер."""
+    """Добавляет текст на картинку/стикер."""
     strings = {'name': 'TextOnPhoto'}
 
     async def downcmd(self, message):
-    	"""Используй: .down {реплай на картинку/стикер} <white/black>;ничего<текст>."""
+        """Используй: .down {реплай на картинку/стикер} <white/black>;ничего<текст>."""
         cols = {'white': 1, 'black': 2}
         col = 1
         reply = await message.get_reply_message()
@@ -38,7 +38,7 @@ class TextOnPhotoMod(loader.Module):
         await message.delete()
 
     async def topcmd(self, message):
-    	"""Используй: .top {реплай на картинку/стикер} <white/black>;ничего<текст>."""
+        """Используй: .top {реплай на картинку/стикер} <white/black>;ничего<текст>."""
         cols = {'white': 1, 'black': 2}
         col = 1
         reply = await message.get_reply_message()
@@ -64,7 +64,7 @@ class TextOnPhotoMod(loader.Module):
         await message.delete()
 
     async def centercmd(self, message):
-    	"""Используй: .center {реплай на картинку/стикер} <white/black>;ничего<текст>."""
+        """Используй: .center {реплай на картинку/стикер} <white/black>;ничего<текст>."""
         cols = {'white': 1, 'black': 2}
         col = 1
         reply = await message.get_reply_message()
