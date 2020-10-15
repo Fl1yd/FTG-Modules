@@ -23,7 +23,10 @@ class ImpMod(loader.Module):
                           "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor4.png",
                           "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor5.png",
                           "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor6.png",
-                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor7.png"]
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor7.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor8.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor9.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor10.png"]
             background = requests.get(f"{choice(backgrouds)}").content
             reply = await message.get_reply_message()
             args = utils.get_args_raw(message)
