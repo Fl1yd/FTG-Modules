@@ -10,7 +10,7 @@ def register(cb):
     
 class ImpMod(loader.Module):
     """Among Us"""
-    strings = {'name': 'Imposter?'}
+    strings = {'name': 'Impostor?'}
     
     async def impscmd(self, message):
         """Используй: .imps <@ или текст или реплай>."""
