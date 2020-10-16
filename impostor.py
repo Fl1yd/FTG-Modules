@@ -26,7 +26,19 @@ class ImpMod(loader.Module):
                           "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor7.png",
                           "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor8.png",
                           "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor9.png",
-                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor10.png"]
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor10.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor11.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor12.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor13.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor14.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor15.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor16.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor17.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor18.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor19.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor20.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor21.png",
+                          "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor22.png"]
             background = requests.get(f"{choice(backgrouds)}").content
             reply = await message.get_reply_message()
             args = utils.get_args_raw(message)
