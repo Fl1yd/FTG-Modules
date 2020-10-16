@@ -12,8 +12,8 @@ class ImpMod(loader.Module):
     """Among Us"""
     strings = {'name': 'Impostor?'}
     
-    async def impscmd(self, message):
-        """Используй: .imps <@ или текст или реплай>."""
+    async def impcmd(self, message):
+        """Используй: .imp <@ или текст или реплай>."""
         try:
             await message.edit("Минуточку...")
             font = requests.get("https://github.com/Fl1yd/FTG-modules/blob/master/stuff/font2.ttf?raw=true").content

@@ -437,8 +437,8 @@ class ArtsMod(loader.Module):
         await message.edit(huy)
 
 
-    async def impcmd(self, message):
-        """Используй .imp <@ или реплай>."""
+    async def impscmd(self, message):
+        """Используй .imps <@ или реплай>."""
         reply = await message.get_reply_message()
         args = utils.get_args_raw(message)
         if not args and not reply:
