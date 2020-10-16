@@ -45,15 +45,15 @@ class ImpMod(loader.Module):
             imps = ['wasn`t the impostor', 'was the impostor']
             if not args and not reply:
                 user = await message.client.get_me()
-                text = (f"{user.first_name} {choice(imps)}\n"
+                text = (f"{user.first_name} {choice(imps)}.\n"
                         f"{randint(1, 2)} impostor(s) remain.")
             if reply:
                 user = await utils.get_user(await message.get_reply_message())
-                text = (f"{user.first_name} {choice(imps)}\n"
+                text = (f"{user.first_name} {choice(imps)}.\n"
                         f"{randint(1, 2)} impostor(s) remain.")
             if args:
                 user = await message.client.get_entity(args)
-                text = (f"{user.first_name} {choice(imps)}\n"
+                text = (f"{user.first_name} {choice(imps)}.\n"
                         f"{randint(1, 2)} impostor(s) remain.")
             font = io.BytesIO(font)
             font = ImageFont.truetype(font, 30)
