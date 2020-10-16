@@ -10,21 +10,23 @@ def register(cb):
 
 class TextOnPhotoMod(loader.Module):
     """Добавляет текст на картинку/стикер."""
-    strings = {'name': 'textonphoto'}
+    strings = {'name': 'TextOnPhoto'}
 
     async def downcmd(self, message):
-        """Используй: .down {реплай на картинку/стикер} <white/black>;ничего<текст>."""
-        cols = {'white': 1, 'black': 2}
+        """Используй: .down {реплай на картинку/стикер} <white/black>;ничего <текст>."""
+        cols = {'white': 1, 'whit': 1, 'whi': 1, 'wh': 1, 'w': 1,
+                'black': 2, 'blac': 2, 'bla': 2, 'bl': 2, 'b': 2}
         col = 1
         reply = await message.get_reply_message()
         txt = utils.get_args_raw(message)
+        await message.edit("подождем...")
         if txt in cols:
-            col = cols[text]
+            col = cols[txt]
             txt = None
         if not txt:
             txt = "я лошара."
         if not reply:
-            await message.edit("Нет реплая на картинку/стикер.")
+            await message.edit("нет реплая на картинку/стикер.")
             return
         if txt.split(" ")[0] in cols:
             col = cols[txt.split(" ")[0]]
@@ -38,23 +40,24 @@ class TextOnPhotoMod(loader.Module):
         await message.delete()
 
     async def topcmd(self, message):
-        """Используй: .top {реплай на картинку/стикер} <white/black>;ничего<текст>."""
-        cols = {'white': 1, 'black': 2}
+        """Используй: .top {реплай на картинку/стикер} <white/black>;ничего <текст>."""
+        cols = {'white': 1, 'whit': 1, 'whi': 1, 'wh': 1, 'w': 1,
+                'black': 2, 'blac': 2, 'bla': 2, 'bl': 2, 'b': 2}
         col = 1
         reply = await message.get_reply_message()
         txt = utils.get_args_raw(message)
+        await message.edit("подождем...")
         if txt in cols:
-            col = cols[text]
+            col = cols[txt]
             txt = None
         if not txt:
             txt = "я лошара."
         if not reply:
-            await message.edit("Нет реплая на картинку/стикер.")
+            await message.edit("нет реплая на картинку/стикер.")
             return
         if txt.split(" ")[0] in cols:
             col = cols[txt.split(" ")[0]]
             txt = " ".join(txt.split(" ")[1:])
-        txt = utils.get_args_raw(message)
         img = await phedit(reply, txt, 2, col)
         output = io.BytesIO()
         output.name = "клоун.png"
@@ -64,18 +67,20 @@ class TextOnPhotoMod(loader.Module):
         await message.delete()
 
     async def centercmd(self, message):
-        """Используй: .center {реплай на картинку/стикер} <white/black>;ничего<текст>."""
-        cols = {'white': 1, 'black': 2}
+        """Используй: .center {реплай на картинку/стикер} <white/black>;ничего <текст>."""
+        cols = {'white': 1, 'whit': 1, 'whi': 1, 'wh': 1, 'w': 1,
+                'black': 2, 'blac': 2, 'bla': 2, 'bl': 2, 'b': 2}
         col = 1
         reply = await message.get_reply_message()
         txt = utils.get_args_raw(message)
+        await message.edit("подождем...")
         if txt in cols:
-            col = cols[text]
+            col = cols[txt]
             txt = None
         if not txt:
             txt = "я лошара."
         if not reply:
-            await message.edit("нету реплая на медиа.")
+            await message.edit("нет реплая на картинку/стикер.")
             return
         if txt.split(" ")[0] in cols:
             col = cols[txt.split(" ")[0]]
