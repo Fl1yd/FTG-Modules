@@ -190,9 +190,13 @@ class ChatMod(loader.Module):
 
     async def kickmecmd(self, leave):
         """Используйте команду .kickme, чтобы кикнуть себя из чата."""
+        reason = utils.get_args_raw(leave)
         try:
-            await leave.edit("<b>До связи.</b>")
-            await bot(LeaveChannelRequest(leave.chat_id))
+            if reason:
+                await leave.edit(f"<b>До связи.\nПричина: {reason}.</b>")
+            else:
+                await leave.edit("<b>До связи.</b>")
+            await leave.client(LeaveChannelRequest(leave.chat_id))
         except:
             await leave.edit("<b>Это не чат!</b>")
             return
@@ -244,7 +248,7 @@ class ChatMod(loader.Module):
                                            caption="<b>Пользователей в {}:</b>".format(title),
                                            reply_to=message.id)
             remove("userslist.md")
-            message.delete()
+            await message.delete()
 
 
     async def adminscmd(self, message):
@@ -274,6 +278,7 @@ class ChatMod(loader.Module):
                                                caption="<b>Админов в {}:<b>".format(title),
                                                reply_to=message.id)
                 remove("adminlist.md")
+                await message.delete()
         else:
             await message.edit("<b>Я слышал, что только чаты могут иметь админов...</b>")
 
@@ -313,5 +318,6 @@ class ChatMod(loader.Module):
                                                caption="<b>Ботов в {}:</b>".format(title),
                                                reply_to=message.id)
                 remove("botlist.md")
+                await message.delete()
         else:
             await message.edit("<b>Я слышал, что только чаты могут иметь ботов...</b>")

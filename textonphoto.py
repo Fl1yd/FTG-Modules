@@ -9,11 +9,10 @@ def register(cb):
     cb(TextOnPhotoMod())
 
 class TextOnPhotoMod(loader.Module):
-    """Добавляет текст на картинку/стикер."""
     strings = {'name': 'TextOnPhoto'}
 
-    async def downcmd(self, message):
-        """Используй: .down {реплай на картинку/стикер} <white/black>;ничего <текст>."""
+    async def bottomcmd(self, message):
+        """Используй: .bottom {реплай на картинку/стикер} <white/black>;ничего <текст>."""
         cols = {'white': 1, 'whit': 1, 'whi': 1, 'wh': 1, 'w': 1,
                 'black': 2, 'blac': 2, 'bla': 2, 'bl': 2, 'b': 2}
         col = 1
@@ -97,11 +96,11 @@ async def phedit(reply, txt, align, clr):
     bytes_font = requests.get("https://github.com/Fl1yd/FTG-modules/blob/master/stuff/font3.ttf?raw=true").content
     bytes_back = await reply.download_media(bytes)
     font = io.BytesIO(bytes_font)
-    font = ImageFont.truetype(font, 52)
+    font = ImageFont.truetype(font, 72)
     img = Image.open(io.BytesIO(bytes_back))
     W, H = img.size
     txt = txt.replace("\n", "𓃐")
-    text = "\n".join(wrap(txt, 40))
+    text = "\n".join(wrap(txt, 30))
     t = text
     t = t.replace("𓃐", "\n")
     draw = ImageDraw.Draw(img)
