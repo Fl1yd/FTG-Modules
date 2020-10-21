@@ -7,7 +7,7 @@ def register(cb):
 	cb(KickRandomMod())
 
 class KickRandomMod(loader.Module):
-	"""Кик рандом"""
+	"""Кик рандом."""
 	strings = {'name': 'KickRandom'}
 
 	async def kickrandcmd(self, event):
@@ -30,8 +30,6 @@ class KickRandomMod(loader.Module):
 				await event.edit('<b>У меня нет достаточных прав :с</b>')
 				return
 
-			name = str(user.first_name)
-			name += " "+user.last_name if user.last_name else ''
 			await event.edit(f"<b>Рандом выбрал <a href=\"tg://user?id={user.id}\">{user.first_name}</a>, и он кикнут!</b>")
 		else:
 			await event.edit('<b>Это не чат!</b>')
