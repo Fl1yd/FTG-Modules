@@ -53,9 +53,10 @@ class OnAvaMod(loader.Module):
     async def togifcmd(self, message):
         """Сделать из медиа гифку.\nИспользование: .togif <реплай>."""
         try:
-            await message.edit("Конвертируем...")
+            await message.edit("Скачиваем...")
             reply = await message.get_reply_message()
             if reply:
+                await message.edit("Конвертируем...")
                 await message.client.download_media(reply.media, "tgs.tgs")
                 os.system("lottie_convert.py tgs.tgs tgs.gif")
                 await message.edit("Отправляем...")
