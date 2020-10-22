@@ -189,7 +189,7 @@ class ChatMod(loader.Module):
 
 
     async def kickmecmd(self, leave):
-        """Используйте команду .kickme, чтобы кикнуть себя из чата."""
+        """Используйте команду .kickme <причина>; ничего, чтобы кикнуть себя из чата."""
         reason = utils.get_args_raw(leave)
         try:
             if reason:
