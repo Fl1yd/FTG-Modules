@@ -13,7 +13,7 @@ class ReportMod(loader.Module):
         """Репорт пользователя за спам."""
         reply = await message.get_reply_message()
         if reply:
-            await message.client(functions.messages.ReportSpamRequest(peer=message.to_id))
+            await message.client(functions.messages.ReportSpamRequest(peer=reply.sender.id))
             await message.edit("<b>Ты получил репорт за спам!</b>")
         else:
             return await message.edit("<b>Кого я должен зарепортить?</b>")
