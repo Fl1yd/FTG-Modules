@@ -6,10 +6,11 @@ def register(cb):
     cb(WeatherMod())
     
 class WeatherMod(loader.Module):
+    """Погода с сайта wttr.in"""
     strings = {'name': 'Weather'}
     
     async def pwcmd(self, message):
-        """"Кидает погоду картинкой.\nИспользование: .pw <город>; ничего."""
+        """"Кидает погоду картинкой.\nИспользование: .pw <город>."""
         args = utils.get_args_raw(message)
         city = args.replace(' ', '+')
         if not args:
@@ -22,7 +23,7 @@ class WeatherMod(loader.Module):
 
 
     async def awcmd(self, message):
-        """Кидает погоду ascii-артом.\nИспользование: .aw <город>; ничего."""
+        """Кидает погоду ascii-артом.\nИспользование: .aw <город>."""
         city = utils.get_args_raw(message)
         if not city:
             return await message.edit("Ты не указал город.")
