@@ -29,5 +29,5 @@ class WeatherMod(loader.Module):
             return await message.edit("Ты не указал город.")
         await message.edit("Узнаем погоду...")
         if city:
-            r = requests.get(f"https://wttr.in/{city}?0?q?T")
+            r = requests.get(f"https://wttr.in/{city}?0?q?T&lang=ru")
         await message.edit(f"<code>Город: {r.text}</code>")
