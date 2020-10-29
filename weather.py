@@ -13,11 +13,7 @@ class WeatherMod(loader.Module):
         """"Кидает погоду картинкой.\nИспользование: .pw <город>."""
         args = utils.get_args_raw(message)
         city = args.replace(' ', '+')
-        if not args:
-            return await message.edit("Ты не указал город.")
-        await message.edit("Узнаем погоду...")
-        if args:
-            city = f"https://wttr.in/{city}.png"
+        city = f"https://wttr.in/{city if city != None else ''}.png"
         await message.client.send_file(message.to_id, city)
         await message.delete()
 
@@ -25,9 +21,6 @@ class WeatherMod(loader.Module):
     async def awcmd(self, message):
         """Кидает погоду ascii-артом.\nИспользование: .aw <город>."""
         city = utils.get_args_raw(message)
-        if not city:
-            return await message.edit("Ты не указал город.")
         await message.edit("Узнаем погоду...")
-        if city:
-            r = requests.get(f"https://wttr.in/{city}?0?q?T&lang=ru")
+        r = requests.get(f"https://wttr.in/{city if city != None else ''}?0?q?T&lang=ru")
         await message.edit(f"<code>Город: {r.text}</code>")
