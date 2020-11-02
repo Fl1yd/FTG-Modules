@@ -17,7 +17,7 @@ class GSBLMod(loader.Module):
         try:
             reply = await event.get_reply_message()
             if not reply:
-                return await event.edit("Нет реплая на видео.")
+                return await event.edit("Нет реплая на картинку/стикер.")
             await event.edit("Минуточку...")
             im = io.BytesIO()
             await event.edit("Скачиваю...")
