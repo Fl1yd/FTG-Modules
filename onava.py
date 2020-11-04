@@ -32,8 +32,7 @@ class OnAvaMod(loader.Module):
             await message.edit("Ава установлена.")
             os.system("rm -rf ava.mp4 gifava.mp4 gifavaa.mp4 tgs*")
         except:
-            await message.edit("Блин, какой я дурак, я не отличаю гифку/анимированный стикер/видео от любого другого файла.\n\n"
-                               "<b>ЭТОТ ФАЙЛ НЕ ПОДДЕРЖИВАЕТСЯ!!!</b>(либо просто какая-то тех.ошибка c: )")
+            await message.edit("Произошла непредвиденная ошибка.")
             try:
                 os.system("rm -rf ava.mp4 gifava.mp4 gifavaa.mp4 tgs*")
             except:
@@ -60,8 +59,7 @@ class OnAvaMod(loader.Module):
             else:
                 return await message.edit("Нет реплая на гиф/анимированный стикер/видеосообщение.")
         except:
-            await message.edit("Блин, какой я дурак, я не отличаю гифку/анимированный стикер/видео от любого другого файла.\n\n"
-                               "<b>ЭТОТ ФАЙЛ НЕ ПОДДЕРЖИВАЕТСЯ!!!</b>(либо просто какая-то тех.ошибка c: )")
+            await message.edit("Произошла непредвиденная ошибка.")
             try:
                 os.remove("tgs*")
             except FileNotFoundError:
