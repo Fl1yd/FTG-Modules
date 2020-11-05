@@ -22,8 +22,16 @@ class MediaCutterMod(loader.Module):
 						await event.edit('Скачиваем...') 
 						smth = reply.file.ext
 						await event.client.download_media(reply.media, f'uncutted{smth}')
-						await event.edit(f'Обрезаем с {args[0]} сек. по {args[1]} сек....')
-						os.system(f'ffmpeg -i uncutted{smth} -ss {args[0]} -to {args[1]} -c copy cutted{smth} -y')
+						if not args[0]:
+							await event.edit(f'Обрезаем с 0 сек. по {args[1]} сек....')
+							os.system(f'ffmpeg -i uncutted{smth} -ss 0 -to {args[1]} -c copy cutted{smth} -y')
+						elif not args[1]:
+							end = reply.media.document.attributes[0].duration
+							await event.edit(f'Обрезаем с {args[0]} сек. по {end} сек....')
+							os.system(f'ffmpeg -i uncutted{smth} -ss {args[0]} -to {end} -c copy cutted{smth} -y')
+						else:
+							await event.edit(f'Обрезаем с {args[0]} сек. по {args[1]} сек....')
+							os.system(f'ffmpeg -i uncutted{smth} -ss {args[0]} -to {args[1]} -c copy cutted{smth} -y') 
 						await event.edit('Отправляем...') 
 						await event.client.send_file(event.to_id, f'cutted{smth}', reply_to=reply.id) 
 						os.system('rm -rf uncutted* cutted*') 
