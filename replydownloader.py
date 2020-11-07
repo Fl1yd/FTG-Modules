@@ -17,22 +17,22 @@ class ReplyDownloaderMod(loader.Module):
 			await message.edit('Скачиваем...')
 			if reply.text:
 				text = reply.text
-				fname = f'{name or str(message.id+reply.id)}.txt'
+				fname = f'{name or message.id+reply.id}.txt'
 				file = open(fname, 'w')
 				file.write(text)
 				file.close()
 				await message.edit(f'Файл сохранён как: <code>{fname}</code>.\n\nВы можете отправить его в этот чат с помощью команды <code>.ulr {fname}</code>.')  
 			else:
 				ext = reply.file.ext 
-				fname = f'{name or str(message.id+reply.id)}{ext}'
+				fname = f'{name or message.id+reply.id}{ext}'
 				await message.client.download_media(reply, fname)
 				await message.edit(f'Этот файл сохранён как: <code>{fname}</code>.\n\nВы можете отправить его в этот чат с помощью команды <code>.ulr {fname}</code>.')
 		else:
 			return await message.edit('Нет реплая.') 
 		
 		
-	async def ulrcmd(self, message):
-		"""Команда .ulr <d>* <название файла> отправляет файл в чат.\n* - удалить файл после отправки."""
+	async def ulfcmd(self, message):
+		"""Команда .ulf <d>* <название файла> отправляет файл в чат.\n* - удалить файл после отправки."""
 		name = utils.get_args_raw(message) 
 		d = False 
 		if('d ' in name):
