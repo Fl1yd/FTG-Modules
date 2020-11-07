@@ -30,13 +30,10 @@ class OnAvaMod(loader.Module):
             await message.edit("Устанавливаем аву...")
             await message.client(functions.photos.UploadProfilePhotoRequest(video=await message.client.upload_file("gifava.mp4"), video_start_ts=0.0))
             await message.edit("Ава установлена.")
-            os.system("rm -rf ava.mp4 gifava.mp4 gifavaa.mp4 tgs*")
+            os.system("rm -rf ava.mp4 gifava.mp4 gifavaa.mp4 tgs.tgs tgs.gif")
         except:
             await message.edit("Произошла непредвиденная ошибка.")
-            try:
-                os.system("rm -rf ava.mp4 gifava.mp4 gifavaa.mp4 tgs*")
-            except:
-                pass
+            os.system("rm -rf ava.mp4 gifava.mp4 gifavaa.mp4 tgs.tgs tgs.gif")
             return
 
 
@@ -46,22 +43,25 @@ class OnAvaMod(loader.Module):
             await message.edit("Скачиваем...")
             reply = await message.get_reply_message()
             if reply:
-                await message.edit("Конвертируем...")
-                await message.client.download_media(reply.media, "tgs.tgs")
-                os.system("lottie_convert.py tgs.tgs tgs.gif")
-                await message.edit("Отправляем...")
-                await message.client.send_file(message.to_id, "tgs.gif")
+                if reply.video:
+                    await message.edit("Конвертируем...")
+                    await message.client.download_media(reply.media, "inputfile.mp4")
+                    os.system("ffmpeg -i inputfile.mp4 -vcodec copy -an outputfile.mp4") 
+                    await message.edit("Отправляем...")
+                    await message.client.send_file(message.to_id, "outputfile.mp4")
+                elif reply.file.ext == ".tgs":
+                    await message.edit("Конвертируем...") 
+                    await message.client.download_media(reply.media, f"tgs.tgs")
+                    os.system("lottie_convert.py tgs.tgs tgs.gif")
+                    await message.edit("Отправляем...")
+                    await message.client.send_file(message.to_id, "tgs.gif")
+                else:
+                    return await message.edit("Этот файл не поддерживается.")
                 await message.delete()
-                try:
-                    os.remove("tgs*")
-                except FileNotFoundError:
-                    pass
+                os.system("rm -rf inputfile.mp4 outputfile.mp4 tgs.tgs tgs.gif") 
             else:
-                return await message.edit("Нет реплая на гиф/анимированный стикер/видеосообщение.")
+                return await message.edit("Нет реплая на видео/гиф/стикр.")
         except:
             await message.edit("Произошла непредвиденная ошибка.")
-            try:
-                os.remove("tgs*")
-            except FileNotFoundError:
-                pass
+            os.system("rm -rf inputfile.mp4 outputfile.mp4 tgs.tgs tgs.gif")  
             return
