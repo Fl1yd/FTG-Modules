@@ -10,10 +10,13 @@ class HidenTagMod(loader.Module):
 
     async def tagcmd(self, message):
         """Использование: .tag <@> <текст (по желанию)>."""
-        await message.delete()
         args = utils.get_args_raw(message).split(' ')
         tag = 'говно залупное\n                пашет.'
-        user = await message.client.get_entity(args[0])
+        try:
+            user = await message.client.get_entity(args[0])
+        except:
+            return await message.edit('Пользователь не найден.')
+        await message.delete()
         if len(args) == 1:
             tag = tag
         elif len(args) >= 2:
