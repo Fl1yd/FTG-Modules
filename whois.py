@@ -13,7 +13,6 @@ from telethon.tl.types import MessageEntityMentionName
 def register(cb):
     cb(WhoIsMod())
 
-
 class WhoIsMod(loader.Module):
     """Получает информацию о пользователе в Телеграме (включая вас!)."""
     strings = {'name': 'WhoIs'}
