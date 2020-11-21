@@ -21,12 +21,12 @@ class ReplyDownloaderMod(loader.Module):
 				file = open(fname, 'w')
 				file.write(text)
 				file.close()
-				await message.edit(f'Файл сохранён как: <code>{fname}</code>.\n\nВы можете отправить его в этот чат с помощью команды <code>.ulr {fname}</code>.')  
+				await message.edit(f'Файл сохранён как: <code>{fname}</code>.\n\nВы можете отправить его в этот чат с помощью команды <code>.ulf {fname}</code>.')  
 			else:
 				ext = reply.file.ext 
 				fname = f'{name or message.id+reply.id}{ext}'
 				await message.client.download_media(reply, fname)
-				await message.edit(f'Этот файл сохранён как: <code>{fname}</code>.\n\nВы можете отправить его в этот чат с помощью команды <code>.ulr {fname}</code>.')
+				await message.edit(f'Этот файл сохранён как: <code>{fname}</code>.\n\nВы можете отправить его в этот чат с помощью команды <code>.ulf {fname}</code>.')
 		else:
 			return await message.edit('Нет реплая.') 
 		

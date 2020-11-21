@@ -4,30 +4,6 @@ from .. import loader, utils
 from random import choice, randint
 from PIL import Image, ImageDraw, ImageFont
 
-backgrouds = ["https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor2.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor3.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor4.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor5.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor6.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor7.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor8.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor9.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor10.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor11.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor12.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor13.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor14.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor15.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor16.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor17.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor18.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor19.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor20.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor21.png",
-              "https://raw.githubusercontent.com/Fl1yd/FTG-modules/master/stuff/impostor22.png"]
-background = requests.get(f"{choice(backgrouds)}").content
-
 
 def register(cb):
     cb(ImpMod())
@@ -39,7 +15,8 @@ class ImpMod(loader.Module):
     async def impcmd(self, message):
         """Используй: .imp <@ или текст или реплай>."""
         try:
-            font = requests.get("https://github.com/Fl1yd/FTG-modules/blob/master/stuff/font2.ttf?raw=true").content
+            background = requests.get(f"https://fl1yd.ml/modules/stuff/impostor{randint(1,22)}.png").content
+            font = requests.get("https://fl1yd.ml/modules/stuff/font2.ttf").content
             await message.edit("Минуточку...")
             reply = await message.get_reply_message()
             args = utils.get_args_raw(message)
@@ -93,7 +70,8 @@ class ImpMod(loader.Module):
     async def ruimpcmd(self, message):
         """Используй: .ruimp <@ или текст или реплай>."""
         try:
-            font = requests.get("https://github.com/Fl1yd/FTG-modules/blob/master/stuff/font2.ttf?raw=true").content
+            background = requests.get(f"https://fl1yd.ml/modules/stuff/impostor{randint(1,22)}.png").content
+            font = requests.get("https://fl1yd.ml/modules/stuff/font2.ttf").content
             await message.edit("Минуточку...")
             reply = await message.get_reply_message()
             args = utils.get_args_raw(message)

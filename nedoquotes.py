@@ -41,5 +41,5 @@ class NedoQuotesMod(loader.Module):
             await message.client.send_message(message.to_id, f"<b> {response.text}</b>")
             await message.delete()
         if response.media:
-            await message.client.send_file(message.to_id, response.media)
+            await message.client.send_file(message.to_id, response.media, reply_to=reply.id)
             await message.delete()
