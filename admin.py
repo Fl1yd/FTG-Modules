@@ -259,6 +259,7 @@ class AdminToolsMod(loader.Module):
                 reason = utils.get_args_raw(kock)
                 reply = await kock.get_reply_message()
                 chat = await kock.get_chat()
+                reason = False
                 if not chat.admin_rights and not chat.creator:
                     return await utils.answer(kock, self.strings('not_admin', kock))
                 if reply:
@@ -299,6 +300,7 @@ class AdminToolsMod(loader.Module):
                 reason = utils.get_args_raw(bon)
                 reply = await bon.get_reply_message()
                 chat = await bon.get_chat()
+                reason = False
                 if not chat.admin_rights and not chat.creator:
                     return await utils.answer(bon, self.strings('not_admin', bon))
                 if reply:
@@ -318,19 +320,14 @@ class AdminToolsMod(loader.Module):
                 try:
                     await utils.answer(bon, self.strings('banning', bon))
                     await bon.client(EditBannedRequest(bon.chat_id, user.id, ChatBannedRights(until_date=None, view_messages=True)))
-                    if 'del' or 'del ' in args:
-                        reason = args.replace('del ', '')
-                        await bon.client(DeleteUserHistoryRequest(bon.chat_id, user.id))
                 except ChatAdminRequiredError:
                     return await utils.answer(bon, self.strings('no_rights', bon))
                 except UserAdminInvalidError:
                     return await utils.answer(bon, self.strings('no_rights', bon))
-                except:
-                    pass
                 if reason:
                     return await utils.answer(bon, self.strings('banned_for_reason', bon).format(user.first_name, reason))
                 if reason == False:
-                    return await utils.answer(bon, self.strings('banned', bon).format(user.first_name, reason))
+                    return await utils.answer(bon, self.strings('banned', bon).format(user.first_name))
             except ValueError:
                 return await utils.answer(bon, self.strings('no_args', bon))
         else:

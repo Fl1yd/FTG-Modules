@@ -18,17 +18,12 @@
 import logging
 from .. import loader, utils
 from os import remove
-from telethon import functions
-from telethon.tl.functions.channels import LeaveChannelRequest
-from telethon.errors.rpcerrorlist import MessageTooLongError
-from telethon.errors import (UserIdInvalidError, UserNotMutualContactError, UserPrivacyRestrictedError, BotGroupsBlockedError, ChannelPrivateError, YouBlockedUserError,
+from telethon.tl.functions.channels import LeaveChannelRequest, InviteToChannelRequest 
+from telethon.errors import (UserIdInvalidError, UserNotMutualContactError, UserPrivacyRestrictedError, BotGroupsBlockedError, ChannelPrivateError, YouBlockedUserError,  MessageTooLongError,
                              UserBlockedError, ChatAdminRequiredError, UserKickedError, InputUserDeactivatedError, ChatWriteForbiddenError, UserAlreadyParticipantError)
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, PeerChat, ChannelParticipantsBots)
-from userbot import bot
-logger = logging.getLogger(__name__)
-
-
+from telethon.tl.functions.messages import AddChatUserRequest
 def register(cb):
     cb(ChatMod())
 
@@ -36,37 +31,32 @@ class ChatMod(loader.Module):
     """Чат модуль"""
     strings = {'name': 'ChatModule'}
 
-    def __init__(self):
-        self.config = loader.ModuleConfig("Зашифровать", False, lambda m: ("Кодировать символы Юникода", m))
-
-    def _handle_string(self, string):
-        if self.config["Зашифровать"]:
-            return utils.escape_html(ascii(string))
-        return utils.escape_html(string)
-
-    async def client_ready(self, client, db):
-        self.client = client
-
-
-    async def useridcmd(self, usrid):
+    async def useridcmd(self, message):
         """Команда .userid <@ или реплай> показывает ID выбранного пользователя."""
-        if usrid.is_reply:
-            full = await self.client(GetFullUserRequest((await usrid.get_reply_message()).from_id))
+        if message.is_reply:
+            full = await message.client(GetFullUserRequest((await message.get_reply_message()).from_id))
         else:
-            args = utils.get_args(usrid)
+            args = utils.get_args(message)
             try:
-                full = await self.client(GetFullUserRequest(args[0]))
+                full = await message.client(GetFullUserRequest(args[0]))
             except:
-                full = await self.client(GetFullUserRequest(usrid.from_id))
-        logger.debug(full)
-        message = ("<b>Имя:</b> <code>{}</code>\n".format(self._handle_string(full.user.first_name)))
-        message += ("<b>ID:</b> <code>{}</code>".format(utils.escape_html(full.user.id)))
-        await utils.answer(usrid, message)
+                full = await message.client(GetFullUserRequest(message.from_id))
+        info = (f"<b>Имя:</b> <code>{full.user.first_name}</code>\n"
+                f"<b>ID:</b> <code>{full.user.id}</code>")
+        await message.edit(info)
 
 
-    async def chatidcmd(self, chtid):
+    async def chatidcmd(self, message):
         """Команда .chatid показывает ID чата."""
-        await chtid.edit("<b>Чат ID: </b><code>" + str(chtid.chat_id) + "</code>")
+        args = utils.get_args_raw(message)
+        chatid = None
+        if args:
+            if args.isnumeric(): args = int(args)
+            try: chatid = await message.client.get_entity(args)
+            except: chatid = await message.client.get_entity(message.to_id)
+        else: chatid = await message.client.get_entity(message.to_id)
+        await message.edit(f"<b>Название:</b> <code>{chatid.title}</code>\n"
+                           f"<b>ID</b>: <code>{chatid.id}</code>")
 
 
     async def invitecmd(self, event):
@@ -92,114 +82,81 @@ class ChatMod(loader.Module):
                             userID = user_id
 
                         try:
-                            await event.client(functions.messages.AddChatUserRequest(chat_id=event.chat_id,
-                                                                                     user_id=userID,
-                                                                                     fwd_limit=1000000))
+                            await event.client(AddChatUserRequest(chat_id=event.chat_id,
+                                                                  user_id=userID,
+                                                                  fwd_limit=1000000))
                         except ValueError:
-                            await event.reply("<b>Неверный @ или ID.</b>")
-                            return
+                            return await event.reply("<b>Неверный @ или ID.</b>")
                         except UserIdInvalidError:
-                            await event.reply("<b>Неверный @ или ID.</b>")
-                            return
+                            return await event.reply("<b>Неверный @ или ID.</b>")
                         except UserPrivacyRestrictedError:
-                            await event.reply("<b>Настойки приватности пользователя не позволяют пригласить его.</b>")
-                            return
+                            return await event.reply("<b>Настройки приватности пользователя не позволяют пригласить его.</b>")
                         except UserNotMutualContactError:
-                            await event.reply("<b>Настойки приватности пользователя не позволяют пригласить его.</b>")
-                            return
+                            return await event.reply("<b>Настройки приватности пользователя не позволяют пригласить его.</b>")
                         except ChatAdminRequiredError:
-                            await event.reply("<b>У меня нет прав.</b>")
-                            return
+                            return await event.reply("<b>У меня нет прав.</b>")
                         except ChatWriteForbiddenError:
-                            await event.reply("<b>У меня нет прав.</b>")
-                            return
+                            return await event.reply("<b>У меня нет прав.</b>")
                         except ChannelPrivateError:
-                            await event.reply("<b>У меня нет прав.</b>")
-                            return
+                            return await event.reply("<b>У меня нет прав.</b>")
                         except UserKickedError:
-                            await event.reply("<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>")
-                            return
+                            return await event.reply("<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>")
                         except BotGroupsBlockedError:
-                            await event.reply("<b>Бот заблокирован в чате, обратитесь к администраторам.</b>")
-                            return
+                            return await event.reply("<b>Бот заблокирован в чате, обратитесь к администраторам.</b>")
                         except UserBlockedError:
-                            await event.reply("<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>")
-                            return
+                            return await event.reply("<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>")
                         except InputUserDeactivatedError:
-                            await event.reply("<b>Аккаунт пользователя удалён.</b>")
-                            return
+                            return await event.reply("<b>Аккаунт пользователя удалён.</b>")
                         except UserAlreadyParticipantError:
-                            await event.reply("<b>Пользователь уже в группе.</b>")
-                            return
+                            return await event.reply("<b>Пользователь уже в группе.</b>")
                         except YouBlockedUserError:
-                            await event.reply("<b>Вы заблокировали этого пользователя.</b>")
-                            return
+                            return await event.reply("<b>Вы заблокировали этого пользователя.</b>")
                     await event.edit("<b>Пользователь приглашён успешно!</b>")
                 else:
                     # https://tl.telethon.dev/methods/channels/invite_to_channel.html
                     for user_id in to_add_users.split(" "):
+                        try: userID = int(user_id)
+                        except: userID = user_id
                         try:
-                            userID = int(user_id)
-                        except:
-                            userID = user_id
-
-                        try:
-                            await event.client(functions.channels.InviteToChannelRequest(channel=event.chat_id,
+                            await event.client(InviteToChannelRequest(channel=event.chat_id,
                                                                                          users=[userID]))
                         except ValueError:
-                            await event.reply("<b>Неверный @ или ID.</b>")
-                            return
+                            return await event.reply("<b>Неверный @ или ID.</b>")
                         except UserIdInvalidError:
-                            await event.reply("<b>Неверный @ или ID.</b>")
-                            return
+                            return await event.reply("<b>Неверный @ или ID.</b>")
                         except UserPrivacyRestrictedError:
-                            await event.reply("<b>Настойки приватности пользователя не позволяют пригласить его.</b>")
-                            return
+                            return await event.reply("<b>Настройки приватности пользователя не позволяют пригласить его.</b>")
                         except UserNotMutualContactError:
-                            await event.reply("<b>Настойки приватности пользователя не позволяют пригласить его.</b>")
-                            return
+                            return await event.reply("<b>Настройки приватности пользователя не позволяют пригласить его.</b>")
                         except ChatAdminRequiredError:
-                            await event.reply("<b>У меня нет прав.</b>")
-                            return
+                            return await event.reply("<b>У меня нет прав.</b>")
                         except ChatWriteForbiddenError:
-                            await event.reply("<b>У меня нет прав.</b>")
-                            return
+                            return await event.reply("<b>У меня нет прав.</b>")
                         except ChannelPrivateError:
-                            await event.reply("<b>У меня нет прав.</b>")
-                            return
+                            return await event.reply("<b>У меня нет прав.</b>")
                         except UserKickedError:
-                            await event.reply("<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>")
-                            return
+                            return await event.reply("<b>Пользователь кикнут из чата, обратитесь к администраторам.</b>")
                         except BotGroupsBlockedError:
-                            await event.reply("<b>Бот заблокирован в чате, обратитесь к администраторам.</b>")
-                            return
+                            return await event.reply("<b>Бот заблокирован в чате, обратитесь к администраторам.</b>")
                         except UserBlockedError:
-                            await event.reply("<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>")
-                            return
+                            return await event.reply("<b>Пользователь заблокирован в чате, обратитесь к администраторам.</b>")
                         except InputUserDeactivatedError:
-                            await event.reply("<b>Аккаунт пользователя удалён.</b>")
-                            return
+                            return await event.reply("<b>Аккаунт пользователя удалён.</b>")
                         except UserAlreadyParticipantError:
-                            await event.reply("<b>Пользователь уже в группе.</b>")
-                            return
+                            return await event.reply("<b>Пользователь уже в группе.</b>")
                         except YouBlockedUserError:
-                            await event.reply("<b>Вы заблокировали этого пользователя.</b>")
-                            return
+                            return await event.reply("<b>Вы заблокировали этого пользователя.</b>")
                         await event.edit("<b>Пользователь приглашён успешно!</b>")
 
 
     async def kickmecmd(self, leave):
-        """Используйте команду .kickme <причина>; ничего, чтобы кикнуть себя из чата."""
-        reason = utils.get_args_raw(leave)
+        """Используйте команду .kickme, чтобы кикнуть себя из чата."""
+        args = utils.get_args_raw(leave)
         try:
-            if reason:
-                await leave.edit(f"<b>До связи.\nПричина: {reason}.</b>")
-            else:
-                await leave.edit("<b>До связи.</b>")
+            if args: await leave.edit(f"<b>До связи.\nПричина: {args}</b>")
+            else: await leave.edit("<b>До связи.</b>")
             await leave.client(LeaveChannelRequest(leave.chat_id))
-        except:
-            await leave.edit("<b>Это не чат!</b>")
-            return
+        except: return await leave.edit("<b>Это не чат!</b>")
 
 
     async def userscmd(self, message):
@@ -212,7 +169,7 @@ class ChatMod(loader.Module):
                 users = await message.client.get_participants(message.chat_id)
                 mentions = f'<b>Пользователей в "{title}": {len(users)}</b> \n'
                 if not utils.get_args_raw(message):
-                    users = await bot.get_participants(message.chat_id)
+                    users = await message.client.get_participants(message.chat_id)
                     for user in users:
                         if not user.deleted:
                             mentions += f"\n• <a href =\"tg://user?id={user.id}\">{user.first_name}</a> <b>|</b> <code>{user.id}</code>"
@@ -275,7 +232,7 @@ class ChatMod(loader.Module):
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "adminlist.md",
-                                               caption="<b>Админов в {}:<b>".format(title),
+                                               caption="<b>Админов в \"{}\":<b>".format(title),
                                                reply_to=message.id)
                 remove("adminlist.md")
                 await message.delete()
@@ -315,7 +272,7 @@ class ChatMod(loader.Module):
                 file.close()
                 await message.client.send_file(message.chat_id,
                                                "botlist.md",
-                                               caption="<b>Ботов в {}:</b>".format(title),
+                                               caption="<b>Ботов в \"{}\":</b>".format(title),
                                                reply_to=message.id)
                 remove("botlist.md")
                 await message.delete()

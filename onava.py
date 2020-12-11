@@ -44,23 +44,21 @@ class OnAvaMod(loader.Module):
             reply = await message.get_reply_message()
             if reply:
                 if reply.video:
-                    await message.edit("Конвертируем...")
                     await message.client.download_media(reply.media, "inputfile.mp4")
-                    os.system("ffmpeg -i inputfile.mp4 -vcodec copy -an outputfile.mp4") 
+                    await message.edit("Конвертируем...")
+                    os.system("ffmpeg -i inputfile.mp4 -vcodec copy -an outputfile.mp4")
                     await message.edit("Отправляем...")
                     await message.client.send_file(message.to_id, "outputfile.mp4")
                 elif reply.file.ext == ".tgs":
-                    await message.edit("Конвертируем...") 
                     await message.client.download_media(reply.media, f"tgs.tgs")
+                    await message.edit("Конвертируем...")
                     os.system("lottie_convert.py tgs.tgs tgs.gif")
                     await message.edit("Отправляем...")
-                    await message.client.send_file(message.to_id, "tgs.gif")
-                else:
-                    return await message.edit("Этот файл не поддерживается.")
+                    await message.client.send_file(message.to_id, "tgs.gif", reply_to=reply.id)
+                else: return await message.edit("Этот файл не поддерживается.")
                 await message.delete()
                 os.system("rm -rf inputfile.mp4 outputfile.mp4 tgs.tgs tgs.gif") 
-            else:
-                return await message.edit("Нет реплая на видео/гиф/стикр.")
+            else: return await message.edit("Нет реплая на видео/гиф/стикр.")
         except:
             await message.edit("Произошла непредвиденная ошибка.")
             os.system("rm -rf inputfile.mp4 outputfile.mp4 tgs.tgs tgs.gif")  

@@ -41,6 +41,6 @@ class MediaCutterMod(loader.Module):
 						os.system('rm -rf uncutted* cutted*') 
 						return 
 				else:
-					return await event.edit('Недостаточно аргументов.')
+					return await event.edit('Неверно указаны аргументы.')
 			else:
 				return await event.edit('Нет аргументов')

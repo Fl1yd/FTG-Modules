@@ -1,17 +1,15 @@
-import os
 from .. import loader, utils
 from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
-from telethon.tl.functions.messages import GetHistoryRequest, GetFullChatRequest
+from telethon.tl.functions.messages import GetHistoryRequest
 from telethon.tl.types import MessageActionChannelMigrateFrom, ChannelParticipantsAdmins, UserStatusOnline
 from telethon.errors import (ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError)
 from datetime import datetime
-from math import sqrt
 
 
 def register(cb):
-    cb(ChatinfoMod())
+    cb(ChatInfoMod())
 
-class ChatinfoMod(loader.Module):
+class ChatInfoMod(loader.Module):
     """Показывает информацию о чате."""
     strings = {'name': 'ChatInfo'}
 
@@ -22,7 +20,7 @@ class ChatinfoMod(loader.Module):
             chat = await get_chatinfo(chatinfo)
             caption = await fetch_info(chat, chatinfo)
             try:
-                await chatinfo.client.send_message(chat.full_chat.id, str(caption), file=await chatinfo.client.download_profile_photo(chat.full_chat.id, "chatphoto.jpg"))
+                await chatinfo.client.send_message(chatinfo.to_id, str(caption), file=await chatinfo.client.download_profile_photo(chat.full_chat.id, "chatphoto.jpg"))
             except Exception:
                 await chatinfo.edit(f"<b>Произошла непредвиденная ошибка.</b>")
             await chatinfo.delete()
